@@ -1,0 +1,21 @@
+@require '~normalize.css/normalize.css'
+
+html,
+body,
+#app,
+#game
+  width: 100%
+  height: 100%
+
+body
+  font-family: 'EB Garamond', george, serif
+  font-size: 16px
+  line-height: 1.5
+  -webkit-font-smoothing: antialiased
+
+*
+  box-sizing: border-box
+  // Fixing CSS Transitions
+  // REF: https://www.binarymoon.co.uk/2014/02/fixing-css-transitions-in-google-chrome/
+  -webkit-transform: translateZ(0)
+  -webkit-backface-visibility: hidden

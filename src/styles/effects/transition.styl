@@ -1,0 +1,17 @@
+// Global
+[class*='-transition']
+  transition-duration: 368ms
+
+.fade-transition
+  transition: 318ms
+
+  &.fade-enter,
+  &.fade-leave
+    opacity: 0
+
+.expand-width-transition
+  transition-property: width
+
+  &.expand-width-enter,
+  &.expand-width-leave
+    width: 0
