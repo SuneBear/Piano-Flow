@@ -1,5 +1,7 @@
 # Piano Flow
-[WIP] A music game follows the piano flows.
+[WIP] A music game follows the piano flows. Its rhythm mode inspired by [Touch Pianist](http://touchpianist.com), thanks to Batuhan Bozkurt. The main purpose I made it was to achieve a dream of my youth and to help me practice the fundamentals of MUG.
+
+I need to be honest with you, the game has a bad playability which can't make you feel completely immersed with simple interaction. Maybe it will improve your gameplay through a virtual reality headset, but I think the best experience is on a real piano nowadays.
 
 ## Run on Local
 ``` bash
@@ -26,22 +28,19 @@ $ npm start
 ├── main.js       # Client Entry Point
 ├── router.js     # Route Map and Router Instance
 ```
-The structure is a experimental combination of SPA based on Vue 2 and MUG based on Phaser. They basically are independent, but using the shared assets and services.
+The structure is a experimental combination of SPA based on Vue 2 and MUG based on Pixi. They basically are independent, but using the shared assets and services.
 
 ## Further Improvements
-- Brand Redesign & UI Redesign
+- Brand Redesign & UI Redesign & Animation Tuning
 - Gameplay: add some different modes
-- Replace build tool & Refactor game
+- Refactor game
 
 ## Dependencies & References
 
-#### Starter
-- [phaser-es6-webpack](https://github.com/lean/phaser-es6-webpack) - A bootstrap project for create games.
-
 #### Frameworks & Libraries
-- [Phaser](https://github.com/photonstorm/phaser) - Phaser is a fun, free and fast 2D game framework.
 - [Vue](https://github.com/vuejs/vue) - Simple yet powerful library for building modern web interfaces.
-- [RxJS](https://github.com/Reactive-Extensions/RxJS) - The Reactive Extensions for JavaScript .
+- [Pixi](https://github.com/pixijs/pixi.js) - A 2D JavaScript renderer that uses webGL with canvas fallback.
+- [RxJS](https://github.com/Reactive-Extensions/RxJS) - The Reactive Extensions for JavaScript.
 
 #### Video & Games
 - [From Paper to Screen](https://vimeo.com/69375692) - Animation which shows typography evolution from paper to screen.

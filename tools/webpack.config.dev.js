@@ -16,10 +16,7 @@ module.exports = {
     ],
     loaders: commonConfig.loaders.concat([
       { test: /\.styl$/, loader: 'style!css?sourceMap!stylus?sourceMap' },
-    ]),
-    noParse: [
-      path.resolve('./node_modules/phaser/build')
-    ]
+    ])
   },
   plugins: commonConfig.plugins.concat([
     new HtmlWebpackPlugin(commonConfig.htmlOptions),

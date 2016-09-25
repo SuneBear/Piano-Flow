@@ -36,5 +36,6 @@ $loading.innerHTML = `
     ${buildWave(60, 40)}
   </div>
 `
-
-document.body.appendChild($loading)
+// TODO: Increase universality
+const showLoading = window.location.hash.split('/').filter(el => el).length < 3
+if (showLoading) document.body.appendChild($loading)

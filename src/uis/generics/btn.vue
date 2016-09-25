@@ -20,7 +20,7 @@ import Icon from './icon'
  *
  * @param {string} [type=default] - button type, including default, primary, danger
  * @param {boolean} [disabled=false] - disabled
- * @param {boolean} [plain=false] - is ghost button
+ * @param {boolean} [is-ghost=false] - is ghost button
  * @param {string} [icon] - icon name
  *
  * @example
@@ -31,7 +31,10 @@ export default {
     icon: String,
     disabled: Boolean,
     loading: Boolean,
-    ghost: Boolean,
+    ghost: {
+      type: Boolean,
+      default: true
+    },
     type: {
       type: String,
       default: 'default'
@@ -68,11 +71,11 @@ export default {
   display: inline-flex
   align-items: center
   position: relative
-  padding: 9px 12px
+  padding: 12px 12px
+  font-size: 22px
   transition: all 318ms
-
-  .svg-symbol
-    margin-right: 4px
+  border: none
+  cursor: pointer
 
   .svg-symbol-loading
     position: absolute
@@ -106,19 +109,18 @@ export default {
       opacity: 1
       animation: spin 1s infinite linear
 
-.btn-primary
+.btn-default
   &.is-ghost
-    background-color: $white
-    border-color: $blue
-    color: $blue
+    background-color: transparent
+    color: $gray50
 
     &:hover
-      border-color: darken($blue, 15%)
-      color: darken($blue, 20%)
-      background-color: alpha($blue, 10%)
+      color: darken($gray50, 20%)
+      background-color: alpha($gray50, 10%)
 
-    &:active
-      color: $white
-      background-color: $blue
-      border-color: $blue
+    &:active,
+    &.is-active
+      color: darken($gray50, 25%)
+      background-color: alpha($gray50, 15%)
+
 </style>

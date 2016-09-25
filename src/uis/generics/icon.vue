@@ -1,11 +1,10 @@
 <template>
   <svg class="svg-symbol" :class="computedClass">
-    <use :href="'#ss-' + symbol"></use>
+    <use :xlink:href="'#ss-' + symbol"></use>
   </svg>
 </template>
 
 <script>
-// FIXME: Not work in Safari
 {
   const _require = require.context('tb-icons/lib/svgs', true, /\.svg$/)
   _require.keys().forEach(key => _require(key))

@@ -14,8 +14,9 @@ export default {
     MusicList
   },
 
-  mounted () {
+  beforeRouteEnter (route, redirect, next) {
     context.title.next('Pieces')
+    next()
   }
 
 }

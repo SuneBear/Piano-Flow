@@ -63,6 +63,12 @@ export default {
   transition: transform 318ms
   transform: rotateY(0deg) rotateZ(0deg)
 
+  &.align-center
+    top: 38.2%
+    left: 50%
+    margin-top: -40px
+    margin-left: -40px
+
   &.on-animation,
   &:hover
     animation: rotateTheLogo 2200ms infinite both
@@ -83,8 +89,10 @@ export default {
     box-shadow: inset 0 0 0 2px $black
     border-radius: $radius
     transition: border-radius 500ms
+    user-select: none
 
   .logo-face-front
+    transition: opacity 418ms
     transform: translate3d(0, 0, 40px)
 
     .letter-p

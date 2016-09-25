@@ -13,10 +13,7 @@ module.exports = {
   module: {
     loaders: commonConfig.loaders.concat([
       { test: /\.styl$/, loader: ExtractTextPlugin.extract('style', 'css!postcss!stylus', { publicPath: '../' }) },
-    ]),
-    noParse: [
-      path.resolve('./node_modules/phaser/build')
-    ]
+    ])
   },
    plugins: commonConfig.plugins.concat([
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),

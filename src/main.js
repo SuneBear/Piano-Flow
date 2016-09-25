@@ -1,7 +1,6 @@
 import './styles/main.styl'
 
 import Vue from 'vue'
-// import { context } from './services'
 import { Icon, Btn } from './uis'
 import { headicons } from './utils'
 import App from './app'

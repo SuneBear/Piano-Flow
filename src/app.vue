@@ -1,17 +1,16 @@
 <template>
 <div id="app">
+  <div id="game" themify-bgfill>
+    <router-view keep-alive name="game"></router-view>
+  </div>
   <logo :is-preload="!isLoaded"></logo>
   <div id="content">
     <router-view keep-alive></router-view>
-  </div>
-  <div id="game">
-    <router-view keep-alive name="game"></router-view>
   </div>
 </div>
 </template>>
 
 <script>
-import './game'
 import { context } from './services'
 import { Logo } from './views'
 
@@ -39,17 +38,18 @@ export default {
 <style lang="stylus">
 @require './styles/ref'
 
+// TODO: Mobile-Friendly Responsive Design
 #app
   min-height: $appMinHeight
 
-  .logo
+  > .logo
     left: 50%
     top: 38.2%
     margin-top: -40px
     margin-left: -40px
     transition: transform 318ms, left 500ms 368ms
 
-    body[status='loaded'] &
+    [status='loaded'] &
       left: ($shorterSide/2)
 
     &.is-preload
@@ -68,7 +68,7 @@ export default {
   > *:first-child
     height: 100%
 
-  body[status='loaded'] &
+  [status='loaded'] &
     opacity: 1
     transform: translate3d(0, 0, 0)
 
@@ -77,6 +77,13 @@ export default {
   z-index: $zIndexGame
   top: 0
   left: 0
-  transform: translateY(100%)
-  transition: all 318ms
+  // Safari Bug: http://stackoverflow.com/questions/5472802/css-z-index-lost-after-webkit-transform-translate3d
+  transform: translateY(100%) translateZ(9999px)
+  transition: all 518ms cubic-bezier(0.27, 0.17, 0.37, 1.03)
+
+  [game-status='loading'] &,
+  [game-status='playing'] &,
+  [game-status='paused'] &
+    transform: translateY(0) translateZ(9999px)
+
 </style>

@@ -2,10 +2,12 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject'
 
 class Context {
   constructor () {
-    // App Status
+    // App Status: loading, loaded
     this.status = new BehaviorSubject('loading')
-    // App Theme
+    // App Theme: see styles/themes dir
     this.theme = new BehaviorSubject('moonized')
+    // Game Status: stop, playing, paused, collapsed
+    this.gameStatus = new BehaviorSubject('stop')
     // Doc Title
     this.title = new BehaviorSubject('Loading')
 
@@ -15,6 +17,7 @@ class Context {
   _automation () {
     this.status.subscribe(this.switchStatus)
     this.theme.subscribe(this.switchTheme)
+    this.gameStatus.subscribe(this.switchGameStatus)
     this.title.subscribe(this.setTitle)
   }
 
@@ -24,6 +27,10 @@ class Context {
 
   switchTheme (theme) {
     document.body.setAttribute('theme', theme)
+  }
+
+  switchGameStatus (status) {
+    document.body.setAttribute('game-status', status)
   }
 
   setTitle (title) {
