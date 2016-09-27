@@ -1,0 +1,115 @@
+@import '../../../styles/ref'
+
+// Variables
+$colorError = $red
+$colorWarning = $orange
+$colorInfo = $blue
+$colorSuccess = $blue
+
+// Mixin
+messge-style($color)
+  border-color: $color
+  .svg-symbol
+    color: $color
+
+// Restyle toast
+.toasts-manager-container
+  position: fixed
+  display: flex
+  flex-direction: column
+  z-index: $zIndexToast
+  width: 296px
+
+  &.position-bottom
+    left: 30px
+    bottom: 15px
+
+  .toast-container
+    position: relative
+    z-index: -1
+    padding: 0
+    transition: all 218ms
+
+    &:only-child
+      .toast-message
+        transition-duration: 168ms
+
+    &.v-leave-active,
+    &.v-enter-active
+      opacity: 0
+
+      // FIXME: 100% is weird
+      .toast-message
+        margin-bottom: -63px
+      &.has-tips .toast-message
+        margin-bottom: -108px
+
+    &.v-leave-active
+      .toast-message
+        transition-duration: 368ms
+
+    .toast-message
+      padding: 14px 24px 14px 40px
+      margin-bottom: 15px
+      font-size: 14px
+      color: $black
+      background-color: alpha($white, 95)
+      border-left: 4px solid $blue
+      border-radius: 3px
+      box-shadow: 0px 7px 21px 0px rgba(0, 0, 0, .1)
+      transition: all 268ms cubic-bezier(.02, .01, .47, 1)
+
+      &-body
+        display: inline-block
+        padding-right: 10px
+
+      .svg-symbol
+        position: absolute
+        top: 16px
+        margin-left: -26px
+        font-size: 16px
+
+      .toast-close-btn
+        cursor: pointer
+        position: absolute
+        top: 17px
+        right: 13px
+        width: 14px
+        height: 14px
+        opacity: .7
+        transition: opacity 218ms ease-in-out
+
+        &:hover
+          opacity: 1
+
+        &::before,
+        &::after
+          content: ''
+          position: absolute
+          top: 6px
+          width: 14px
+          height: 2px
+          background-color: $gray65
+
+        &:before
+          transform: rotate(45deg)
+
+        &:after
+          transform: rotate(-45deg)
+
+    .toast-tips
+      display: block
+      margin-top: 5px
+      color: $gray65
+
+    &.status-info .toast-message
+      messge-style($colorInfo)
+
+    &.status-error .toast-message
+      messge-style($colorError)
+
+    &.status-success .toast-message
+      messge-style($colorSuccess)
+
+    &.status-warning .toast-message
+      messge-style($colorWarning)

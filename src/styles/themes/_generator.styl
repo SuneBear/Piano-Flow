@@ -3,10 +3,14 @@ generator()
   [themify]
     color: $brand
 
+  [themify-pseudo]
+    &:after,
+    &:before
+      color: $brand
+
   [themify-bg]
     background: $bg
 
   [themify-bgfill]
     background: $bg
     fill: $brand
-

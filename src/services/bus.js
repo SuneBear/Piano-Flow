@@ -1,8 +1,3 @@
 import Vue from 'vue'
 
-/**
- * Bus Members
- *
- */
-
-export default new Vue()
+export const bus = new Vue()

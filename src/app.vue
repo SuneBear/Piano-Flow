@@ -7,11 +7,12 @@
   <div id="content">
     <router-view keep-alive></router-view>
   </div>
+  <toasts-manager ref="toast"></toasts-manager>
 </div>
 </template>>
 
 <script>
-import { context } from './services'
+import { bus, context } from './services'
 import { Logo } from './views'
 
 export default {
@@ -26,6 +27,10 @@ export default {
   },
 
   mounted () {
+    // Register Bus Members
+    bus.$on('toast', this.$refs.toast.show)
+
+    // Switch App Status & Remove Loading
     const $globalLoading = document.querySelector('.global-loading')
     setTimeout(() => {
       context.status.next('loaded')

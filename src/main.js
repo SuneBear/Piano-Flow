@@ -1,7 +1,7 @@
 import './styles/main.styl'
 
 import Vue from 'vue'
-import { Icon, Btn } from './uis'
+import { UIPlugin } from './uis'
 import { headicons } from './utils'
 import App from './app'
 import router from './router'
@@ -10,8 +10,7 @@ import router from './router'
 headicons()
 
 // Register global components and directives
-Vue.component('icon', Icon)
-Vue.component('btn', Btn)
+Vue.use(UIPlugin)
 
 // Start App
 new Vue({

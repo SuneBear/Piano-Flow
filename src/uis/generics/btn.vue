@@ -27,6 +27,8 @@ import Icon from './icon'
  * <btn icon="t" type="primary">Text</btn>
  */
 export default {
+  name: 'btn',
+
   props: {
     icon: String,
     disabled: Boolean,

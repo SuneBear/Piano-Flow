@@ -3,11 +3,19 @@
   transition-duration: 368ms
 
 .fade-transition
-  transition: 318ms
+  transition-property: opacity
 
-  &.fade-enter,
-  &.fade-leave
+  &-enter,
+  &-leave-active
     opacity: 0
+
+.slide-transition
+  transition-property: all
+
+  &-enter,
+  &-leave-active
+    opacity: 0
+    transform: translateY(-20px)
 
 .expand-width-transition
   transition-property: width

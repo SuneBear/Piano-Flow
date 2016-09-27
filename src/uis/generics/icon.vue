@@ -19,6 +19,8 @@
  * <icon symobl="t"></icon>
  */
 export default {
+  name: 'icon',
+
   props: {
     symbol: String,
     class: {

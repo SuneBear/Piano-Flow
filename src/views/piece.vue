@@ -2,7 +2,17 @@
 <div class="piece-view" :data-id="id">
   <transition appear>
   <div class="control-layer">
-    <div class="menu-handler"><btn icon="menu"></btn></div>
+    <dropdown class="menu-handler">
+      <btn slot="toggler" icon="menu"></btn>
+      <ul class="list">
+        <li @click="pause">Pause</li>
+        <li @click="restart">Restart</li>
+        <li class="divider"></li>
+        <li @click="switchMode('autoplay')" :class="{ 'is-active': mode === 'autoplay' }" themify-pseudo>Autoplay Mode</li>
+        <li @click="switchMode('rhythm')" :class="{ 'is-active': mode === 'rhythm' }" themify-pseudo>Rhythm Mode</li>
+        <li @click="switchMode('sheet')" :class="{ 'is-active': mode === 'sheet' }"  themify-pseudo>Sheet Mode</li>
+      </ul>
+    </dropdown>
     <router-link :to="{ name: 'pieces' }" class="close-handler"><btn icon="remove"></btn></router-link>
   </div>
   </transition>
@@ -34,6 +44,8 @@ export default {
   data () {
     return {
       id$: new Subject(),
+      mode: 'rhythm',
+      status: null,
       piece: { musician: {} },
       height: window.innerHeight,
       isLoaded: false
@@ -81,6 +93,26 @@ export default {
   methods: {
     handleResize () {
       this.height = window.innerHeight
+    },
+
+    resume () {
+
+    },
+
+    pause () {
+
+    },
+
+    restart () {
+
+    },
+
+    switchMode (mode) {
+      this.mode = mode
+    },
+
+    switchStatus (Status) {
+
     }
   }
 }
