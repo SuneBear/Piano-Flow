@@ -14,6 +14,7 @@ function install (Vue, options) {
   // UXs
   Vue.component(uis.ToastsManager.name, uis.ToastsManager)
   Vue.component(uis.Dropdown.name, uis.Dropdown)
+  Vue.component(uis.Modal.name, uis.Modal)
 }
 
 export default class UIPlugin {}

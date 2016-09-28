@@ -18,14 +18,22 @@
   </transition>
   <transition appear>
   <div class="loading-layer" v-show="!isLoaded">
-    <logo class="align-center" :on-animation="true" :style="{ top: logoTop + 'px' }"></logo>
+    <logo class="align-center" :on-animation="true"></logo>
   </div>
   </transition>
   <transition appear>
-  <div class="info-layer" :style="{ top: infoTop + 'px' }">
+  <div class="info-layer">
     <div class="piece-name">{{piece.fullname}} ~ {{piece.musician.name}}</div>
   </div>
   </transition>
+
+  <modal title="Game Paused" v-model="pausedModalVisible">
+    <ul class="list paused-panel-list">
+      <li><btn @click.native="resume" :block="true" :ghost="false" type="dark">Resume</li>
+      <li><btn @click.native="restart" :block="true" :ghost="false" type="dark">Restart</btn></li>
+    </ul>
+  </modal>
+
 </div>
 </template>
 
@@ -34,7 +42,7 @@ import _ from 'lodash'
 import { Subject } from 'rxjs/Subject'
 import { context, pieceAPI } from '../services'
 import Logo from './common/logo'
-import game from '../game'
+import Game from '../game'
 
 export default {
   components: {
@@ -48,6 +56,7 @@ export default {
       status: null,
       piece: { musician: {} },
       height: window.innerHeight,
+      pausedModalVisible: false,
       isLoaded: false
     }
   },
@@ -57,14 +66,6 @@ export default {
       const id = this.$route.params.id
       this.id$.next(id)
       return id
-    },
-
-    infoTop () {
-      return this.height - 44
-    },
-
-    logoTop () {
-      return this.height * 0.382
     }
   },
 
@@ -96,11 +97,11 @@ export default {
     },
 
     resume () {
-
+      this.pausedModalVisible = false
     },
 
     pause () {
-
+      this.pausedModalVisible = true
     },
 
     restart () {
@@ -122,6 +123,7 @@ export default {
 @require '../styles/ref'
 
 .piece-view
+  height: 100%
 
   [class*='-layer']
     transition: all 318ms
@@ -135,6 +137,9 @@ export default {
   .loading-layer
     height: inherit
     transition: all 418ms
+
+    .logo
+      top: 38.2%
 
     [game-status='loading'] &
       transition-delay: 918ms
@@ -157,7 +162,7 @@ export default {
   .info-layer
     position: absolute
     z-index: 2
-    top: 0
+    bottom: 20px
     left: 25px
     max-width: 100%
 
@@ -179,5 +184,17 @@ export default {
     opacity: 0
     transform: translateY(30px)
     transition-delay: 0ms
+
+.paused-panel-list
+  display: flex
+
+  li
+    flex: 1
+
+    + li
+      margin-left: 25px
+
+  .btn
+    padding: 8px 12px
 
 </style>

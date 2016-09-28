@@ -18,7 +18,7 @@ import Toast from './toast'
 
 const defaultOptions = {
   maxToasts: 5,
-  position: 'left bottom'
+  position: 'right bottom'
 }
 
 export default {

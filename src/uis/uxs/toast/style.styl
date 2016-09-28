@@ -21,8 +21,13 @@ messge-style($color)
   width: 296px
 
   &.position-bottom
-    left: 30px
     bottom: 15px
+
+  &.position-left
+    left: 30px
+
+  &.position-right
+    right: 30px
 
   .toast-container
     position: relative
@@ -40,9 +45,9 @@ messge-style($color)
 
       // FIXME: 100% is weird
       .toast-message
-        margin-bottom: -63px
+        margin-bottom: -67px
       &.has-tips .toast-message
-        margin-bottom: -108px
+        margin-bottom: -125px
 
     &.v-leave-active
       .toast-message
@@ -51,12 +56,12 @@ messge-style($color)
     .toast-message
       padding: 14px 24px 14px 40px
       margin-bottom: 15px
-      font-size: 14px
-      color: $black
-      background-color: alpha($white, 95)
+      font-size: 16px
+      color: $white
+      background-color: alpha($black, 86%)
       border-left: 4px solid $blue
-      border-radius: 3px
-      box-shadow: 0px 7px 21px 0px rgba(0, 0, 0, .1)
+      border-radius: $radius
+      box-shadow: $shadow
       transition: all 268ms cubic-bezier(.02, .01, .47, 1)
 
       &-body
@@ -65,14 +70,14 @@ messge-style($color)
 
       .svg-symbol
         position: absolute
-        top: 16px
+        top: 18px
         margin-left: -26px
         font-size: 16px
 
       .toast-close-btn
         cursor: pointer
         position: absolute
-        top: 17px
+        top: 19px
         right: 13px
         width: 14px
         height: 14px
@@ -89,7 +94,7 @@ messge-style($color)
           top: 6px
           width: 14px
           height: 2px
-          background-color: $gray65
+          background-color: $gray85
 
         &:before
           transform: rotate(45deg)
@@ -100,7 +105,7 @@ messge-style($color)
     .toast-tips
       display: block
       margin-top: 5px
-      color: $gray65
+      color: $gray90
 
     &.status-info .toast-message
       messge-style($colorInfo)

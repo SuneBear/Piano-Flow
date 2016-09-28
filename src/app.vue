@@ -27,7 +27,7 @@ export default {
   },
 
   mounted () {
-    // Register Bus Members
+    // Register for Buses, every manager needs to possess a bus to take his members :)
     bus.$on('toast', this.$refs.toast.show)
 
     // Switch App Status & Remove Loading

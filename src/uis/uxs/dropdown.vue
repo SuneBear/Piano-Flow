@@ -104,7 +104,7 @@ export default {
 
     &-enter,
     &-leave-active
-      transform: translateY(20px)
+      transform: translateY(15px)
 
   li
     padding: 6px 12px

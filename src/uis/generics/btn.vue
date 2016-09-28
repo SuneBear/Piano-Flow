@@ -4,6 +4,7 @@
     :class="['btn-' + type, {
       'disabled': disabled,
       'is-ghost': ghost,
+      'is-block': block,
       'is-loading': loading
     }]"
     @click="handleClick">
@@ -21,6 +22,7 @@ import Icon from './icon'
  * @param {string} [type=default] - button type, including default, primary, danger
  * @param {boolean} [disabled=false] - disabled
  * @param {boolean} [is-ghost=false] - is ghost button
+ * @param {boolean} [is-block=false] - is block button
  * @param {string} [icon] - icon name
  *
  * @example
@@ -33,6 +35,7 @@ export default {
     icon: String,
     disabled: Boolean,
     loading: Boolean,
+    block: Boolean,
     ghost: {
       type: Boolean,
       default: true
@@ -95,6 +98,11 @@ export default {
     use
       display: none
 
+  &.is-block
+    display: flex
+    width: 100%
+    justify-content: center
+
   &.disabled
   &.is-loading
     background-color: $gray97 !important
@@ -124,5 +132,12 @@ export default {
     &.is-active
       color: darken($gray50, 25%)
       background-color: alpha($gray50, 15%)
+
+.btn-dark
+  background-color: alpha($gray50, 15%)
+
+  &:hover
+    color: white
+    background-color: $black
 
 </style>
