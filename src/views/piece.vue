@@ -1,5 +1,6 @@
 <template>
 <div class="piece-view" :data-id="id">
+
   <transition appear>
   <div class="control-layer">
     <dropdown class="menu-handler">
@@ -16,14 +17,16 @@
     <router-link :to="{ name: 'pieces' }" class="close-handler"><btn icon="remove"></btn></router-link>
   </div>
   </transition>
+
   <transition appear>
   <div class="loading-layer" v-show="!isLoaded">
     <div class="progress">
-      <div class="progress-bar" :style="{ width: loadedPercent + '%' }"></div>
+      <div class="progress-bar" :style="{ width: loadedPercent + '%' }" themify-darkify-progress></div>
     </div>
     <logo class="align-center" :on-animation="true"></logo>
   </div>
   </transition>
+
   <transition appear>
   <div class="info-layer">
     <div class="piece-name">{{piece.fullname}} ~ {{piece.musician.name}}</div>
@@ -48,6 +51,7 @@
 import _ from 'lodash'
 import { Subject } from 'rxjs/Subject'
 import { bus, context, pieceAPI } from '../services'
+import { getCurrentTheme } from '../utils'
 import Sheet from './common/sheet'
 import Logo from './common/logo'
 import game from '../game'
@@ -92,8 +96,11 @@ export default {
       .catch(() => bus.$emit('toast', { msg: 'Failed to load the MIDI file', type: 'error' }))
       .subscribe(piece => {
         this.piece = piece
+        context.theme.next(piece.theme)
         context.title.next(piece.name)
         game.init({
+          $wrap: this.$el,
+          theme: getCurrentTheme(),
           instrument: this.instrument,
           mode: this.mode,
           piece: this.piece,

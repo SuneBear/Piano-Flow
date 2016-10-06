@@ -3,7 +3,14 @@ import player from './player'
 
 class Game {
   constructor () {
-    console.log('game', PIXI)
+    // Public members
+    this.mode = null
+    this.theme = null
+    this.$wrap = null
+    this.renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight, {
+      transparent: true,
+      antialias: true
+    })
   }
 
   /**
@@ -12,6 +19,9 @@ class Game {
    */
   init (options) {
     this.mode = options.mode
+    this.theme = options.theme
+    this.$wrap = options.$wrap
+    this.$wrap.appendChild(this.renderer.view)
     player.loadPiece(options)
   }
 

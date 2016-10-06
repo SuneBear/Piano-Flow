@@ -4,17 +4,17 @@
     'is-preload': isPreload,
     'on-animation': onAnimation
   }">
-  <div class="logo-face logo-face-front">
+  <div class="logo-face logo-face-front" themify-dark-invert>
     <span class="letter-p">P</span>
     <span class="letter-f">f</span>
   </div>
-  <div class="logo-face logo-face-back">
+  <div class="logo-face logo-face-back" themify-dark-invert>
     <icon symbol="emoji"></icon>
   </div>
-  <div class="logo-face logo-face-left">O</div>
-  <div class="logo-face logo-face-right">N</div>
-  <div class="logo-face logo-face-bottom">W</div>
-  <div class="logo-face logo-face-top">#</div>
+  <div class="logo-face logo-face-left" themify-dark-invert>O</div>
+  <div class="logo-face logo-face-right" themify-dark-invert>N</div>
+  <div class="logo-face logo-face-bottom" themify-dark-invert>W</div>
+  <div class="logo-face logo-face-top" themify-dark-invert>#</div>
 </div>
 </template>
 
@@ -62,6 +62,7 @@ export default {
   perspective: 9999px
   transition: transform 318ms
   transform: rotateY(0deg) rotateZ(0deg)
+  color: $black
 
   &.align-center
     top: 38.2%
@@ -113,7 +114,7 @@ export default {
     .svg-symbol
       font-size: 37px
       stroke-width: 0.4px
-      stroke: #ffffff
+      stroke: transparent
 
   .logo-face-left
     transform: rotateY(-90deg) translate3d(0, 0, 40px)

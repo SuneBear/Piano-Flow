@@ -149,6 +149,7 @@ export default {
   bottom: 0
   left: 0
   overflow: auto
+  color: $black
   // REF: http://zomigi.com/blog/css3-transitions-and-z-index/
   transition: transform 318ms, opacity 318ms
 

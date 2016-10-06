@@ -1,4 +1,6 @@
 // Generally customize for [Base, Generics, UIs, Views]
+// The basic theme is light, so dark theme need to invert some colors
+
 generator()
   [themify]
     color: $brand
@@ -11,9 +13,30 @@ generator()
   [themify-bg]
     background: $bg
 
+    if dark($bg)
+      color: $gray85
+
+      [themify-darkify]
+        color: $gray85
+
+        .svg-symbol
+          opacity: 0.7
+
+        &:hover
+          color: $gray85
+
+      [themify-darkify-progress]
+        height: 3px
+        background: $brand
+        box-shadow: 0 2px 8px alpha($white, 30%)
+
+      [themify-dark-invert]
+        filter: invert(100%)
+
   [themify-brandbg]
     background: $brand
 
-  [themify-bgfill]
+  [themify-all]
     background: $bg
     fill: $brand
+    border-color: $accent

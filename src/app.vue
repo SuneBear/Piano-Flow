@@ -1,6 +1,6 @@
 <template>
 <div id="app">
-  <div id="game" themify-bgfill>
+  <div id="game" themify-bg>
     <router-view keep-alive name="game"></router-view>
   </div>
   <logo :is-preload="!isLoaded"></logo>
@@ -84,7 +84,7 @@ export default {
   left: 0
   // Safari Bug: http://stackoverflow.com/questions/5472802/css-z-index-lost-after-webkit-transform-translate3d
   transform: translateY(100%) translateZ(9999px)
-  transition: all 518ms cubic-bezier(0.27, 0.17, 0.37, 1.03)
+  transition: transform 518ms cubic-bezier(0.27, 0.17, 0.37, 1.03), background 218ms
 
   [game-status='loading'] &,
   [game-status='playing'] &,

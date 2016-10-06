@@ -16,7 +16,7 @@ const pieces = [
     suite: 'Suite Bergamasque',
     number: 2,
     musician: musiciansMap['Claude Debussy'],
-    theme: 'moonized'
+    theme: 'midnight'
   },
   {
     name: 'Clair de Lune',
