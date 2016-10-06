@@ -10,7 +10,7 @@ export function request (url, method = 'GET', body) {
   })
     .then((response) => {
       if (response.status >= 200 && response.status < 300) {
-        return response.json()
+        return (response.headers.get('Content-Type') === 'application/json' ? response.json() : response.blob())
           .catch(() => { return '' })
       } else {
         return Promise.reject(response)

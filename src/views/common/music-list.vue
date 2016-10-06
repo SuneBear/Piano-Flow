@@ -2,7 +2,6 @@
 <div class="music-list">
   <ul class="pieces-list">
    <router-link v-for="piece in pieces"
-      tag="DIV"
       class="piece-item"
       :title="piece.fullname"
       :to="{ name: 'piece', params: { id: piece.id } }"
@@ -71,6 +70,7 @@ export default {
     align-items: center
     cursor: pointer
     padding: .2em 0
+    color: currentColor
 
     & + .piece-item
       margin-top: 30px
@@ -82,6 +82,7 @@ export default {
     &.router-link-active,
     &:hover
       .info-avatar
+        filter: grayscale(0)
         -webkit-filter: grayscale(0)
 
       .subinfo-suite,
@@ -92,7 +93,8 @@ export default {
       width: 48px
       height: 48px
       margin-right: 20px
-      transition: -webkit-filter 318ms
+      transition: all 318ms
+      filter: grayscale(100%)
       -webkit-filter: grayscale(100%)
 
     .info-name

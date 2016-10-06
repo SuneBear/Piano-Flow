@@ -9,36 +9,28 @@ const pieces = [
     suite: 'Suite Bergamasque',
     number: 1,
     musician: musiciansMap['Claude Debussy'],
-    theme: 'moonized',
-    midi: null,
-    mp3: null
+    theme: 'moonized'
   },
   {
     name: 'Menuet',
     suite: 'Suite Bergamasque',
     number: 2,
     musician: musiciansMap['Claude Debussy'],
-    theme: 'moonized',
-    midi: null,
-    mp3: null
+    theme: 'moonized'
   },
   {
     name: 'Clair de Lune',
     suite: 'Suite Bergamasque',
     number: 3,
     musician: musiciansMap['Claude Debussy'],
-    theme: 'moonized',
-    midi: null,
-    mp3: null
+    theme: 'moonized'
   },
   {
     name: 'Passepied',
     suite: 'Suite Bergamasque',
     number: 4,
     musician: musiciansMap['Claude Debussy'],
-    theme: 'moonized',
-    midi: null,
-    mp3: null
+    theme: 'moonized'
   },
   {
     name: 'Air on the G String',
@@ -47,9 +39,7 @@ const pieces = [
     id: 'BWV 1068',
     pitch: 'D',
     musician: musiciansMap['Johann Sebastian Bach'],
-    theme: 'moonized',
-    midi: null,
-    mp3: null
+    theme: 'moonized'
   },
   {
     name: 'Moonlight, 1st',
@@ -57,9 +47,7 @@ const pieces = [
     number: 14,
     pitch: 'C Sharp Minor',
     musician: musiciansMap['Ludwig van Beethoven'],
-    theme: 'moonized',
-    midi: null,
-    mp3: null
+    theme: 'moonized'
   },
   {
     name: 'Moonlight, 3rd',
@@ -67,9 +55,7 @@ const pieces = [
     number: 14,
     pitch: 'C Sharp Minor',
     musician: musiciansMap['Ludwig van Beethoven'],
-    theme: 'moonized',
-    midi: null,
-    mp3: null
+    theme: 'moonized'
   },
   {
     name: 'Pathétique',
@@ -77,9 +63,7 @@ const pieces = [
     number: 8,
     pitch: 'C Minor',
     musician: musiciansMap['Ludwig van Beethoven'],
-    theme: 'moonized',
-    midi: null,
-    mp3: null
+    theme: 'moonized'
   }
 ]
 
@@ -89,6 +73,12 @@ pieces.map(piece => {
   const id = fullname.replace(/(,?\s|\.)/g, '-').replace(/é/g, 'e')
   piece.fullname = fullname
   piece.id = id
+  return piece
+})
+
+// Generate midi path
+pieces.map(piece => {
+  piece.midiPath = require(`../../assets/midis/${piece.id}.mid`)
   return piece
 })
 

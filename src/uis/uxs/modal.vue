@@ -2,10 +2,11 @@
   <transition>
     <div class="modal-wrap" v-show="value" @click.self="handleWrapperClick">
       <div class="modal" :class="[sizeClass, customClass]" ref="modal" :style="{ 'margin-bottom': size !== 'full' ? '50px' : '', 'top': size !== 'full' ? dynamicTop + 'px' : '0' }">
-        <div class="modal-header">
+        <div class="modal-header" v-if="title">
           <span class="modal-title">{{title}}</span>
           <icon symbol="remove" class="modal-close" @click.native="close"></icon>
         </div>
+        <icon symbol="remove" class="modal-close" @click.native="close" v-else></icon>
         <div class="modal-body" v-if="rendered"><slot></slot></div>
       </div>
     </div>
@@ -170,6 +171,18 @@ export default {
     width: 100%
     max-width: 600px
 
+  &.size-full
+    max-width: 1024px
+    background: alpha($white, 90%)
+    border: 0
+    padding: 40px
+
+    .modal-close
+      top: 30px
+      right: 30px
+      font-size: 20px
+      color: #808080
+
   &-header
     position: relative
     padding-bottom: 17px
@@ -194,7 +207,7 @@ export default {
     transition: all 318ms
 
     &:hover
-      color: $red
+      color: $red !important
 
   &-body
     font-size: 120%

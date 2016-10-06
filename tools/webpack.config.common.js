@@ -1,5 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
+const copyWebpackPlugin = require('copy-webpack-plugin')
 const stylus = require('stylus')
 
 const isBuild = !!process.env.BUILD || false
@@ -33,13 +34,16 @@ exports.loaders = [
   { test: /\.(png|jpe?g|gif|svg)(\?.*)?$/, loader: 'url', query: {limit: 100, name: `assets/images/${baseName}`}, exclude: /node_modules\/tb-icons\/lib\/svgs/ },
   { test: /\.svg$/, loaders: [ 'svg-sprite?' + JSON.stringify({name: 'ss-[name]'})], include: /node_modules\/tb-icons\/lib\/svgs/ },
   { test: /\.(woff2?)(\?.*)?$/, loader: 'url', query: {limit: 100, name: `assets/fonts/${baseName}`} },
-  { test: /\.(mp3)$/, loader: 'file', query: {name: `assets/audios/${baseName}`} }
+  { test: /\.(mid)$/, loader: 'file', query: {name: `assets/midis/${baseName}`} }
 ]
 
 exports.plugins = [
   new webpack.DefinePlugin({
     __DEBUG__: JSON.stringify(JSON.parse(!isBuild))
   }),
+  copyWebpackPlugin([
+    { from: './src/assets/soundfonts', to: './assets/soundfonts' },
+  ]),
   new webpack.optimize.CommonsChunkPlugin({
     names: ['lib'],
     chunks: ['lib', 'main'],

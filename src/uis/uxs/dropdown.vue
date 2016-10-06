@@ -98,13 +98,31 @@ export default {
   background: alpha($gray50, 15%)
   min-width: 180px
   max-width: 240px
+  transform: scaleY(1)
+  transform-origin: left top
+  overflow: hidden
+
+  > *:first-child
+    transform: scale(1) translateY(0px)
+    transition: all 218ms
+    transition-delay: 80ms
 
   &.slide-transition
-    transition: 218ms
+    transition: all 218ms
 
     &-enter,
     &-leave-active
-      transform: translateY(15px)
+      transform: scaleY(0)
+
+      > *:first-child
+        transform: scale(1.05) translateY(-15%)
+
+    &-leave
+      transition-delay: 40ms
+
+      > *:first-child
+        transition-delay: 0
+        transform: translateY(-15%)
 
   li
     padding: 6px 12px

@@ -56,7 +56,7 @@ export default {
      * @param  {String} options.type
      * @param  {Number} options.duration
      */
-    show ({ msg, tips = '', type = 'success', duration = 5000 }) {
+    show ({ msg, tips = '', type = 'success', duration = 6000 }) {
       const options = {
         tips: tips,
         theme: type,

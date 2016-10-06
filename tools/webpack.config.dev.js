@@ -11,6 +11,7 @@ module.exports = {
   devtool: '#eval-source-map',
   watch: true,
   module: {
+    noParse: [/\.min\.js/],
     preLoaders: [
       { test: /\.js$/, loader: 'standard', include: path.join(__dirname, '../src') }
     ],

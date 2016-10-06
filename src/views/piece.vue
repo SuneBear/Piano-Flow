@@ -5,12 +5,12 @@
     <dropdown class="menu-handler">
       <btn slot="toggler" icon="menu"></btn>
       <ul class="list">
-        <li @click="pause">Pause</li>
-        <li @click="restart">Restart</li>
+        <li @click="switchStatus('pause')">Pause</li>
+        <li @click="switchStatus('restart')">Restart</li>
         <li class="divider"></li>
-        <li @click="switchMode('autoplay')" :class="{ 'is-active': mode === 'autoplay' }" themify-pseudo>Autoplay Mode</li>
         <li @click="switchMode('rhythm')" :class="{ 'is-active': mode === 'rhythm' }" themify-pseudo>Rhythm Mode</li>
-        <li @click="switchMode('sheet')" :class="{ 'is-active': mode === 'sheet' }"  themify-pseudo>Sheet Mode</li>
+        <li @click="switchMode('autoplay')" :class="{ 'is-active': mode === 'autoplay' }" themify-pseudo>Autoplay Mode</li>
+        <!-- <li @click="switchMode('sheet')" :class="{ 'is-active': mode === 'sheet' }"  themify-pseudo>Sheet Music Mode</li> -->
       </ul>
     </dropdown>
     <router-link :to="{ name: 'pieces' }" class="close-handler"><btn icon="remove"></btn></router-link>
@@ -18,6 +18,9 @@
   </transition>
   <transition appear>
   <div class="loading-layer" v-show="!isLoaded">
+    <div class="progress">
+      <div class="progress-bar" :style="{ width: loadedPercent + '%' }"></div>
+    </div>
     <logo class="align-center" :on-animation="true"></logo>
   </div>
   </transition>
@@ -27,11 +30,15 @@
   </div>
   </transition>
 
-  <modal title="Game Paused" v-model="pausedModalVisible">
+  <modal title="Game Paused" v-model="pausedModalVisible" :onClose="switchStatus">
     <ul class="list paused-panel-list">
-      <li><btn @click.native="resume" :block="true" :ghost="false" type="dark">Resume</li>
-      <li><btn @click.native="restart" :block="true" :ghost="false" type="dark">Restart</btn></li>
+      <li><btn @click.native="switchStatus('resume')" :block="true" :ghost="false" type="dark">Resume</li>
+      <li><btn @click.native="switchStatus('restart')" :block="true" :ghost="false" type="dark">Restart</btn></li>
     </ul>
+  </modal>
+
+  <modal v-model="sheetModalVisible" class="sheet-modal" :size="'full'" :onClose="switchMode">
+    <sheet></sheet>
   </modal>
 
 </div>
@@ -40,24 +47,28 @@
 <script>
 import _ from 'lodash'
 import { Subject } from 'rxjs/Subject'
-import { context, pieceAPI } from '../services'
+import { bus, context, pieceAPI } from '../services'
+import Sheet from './common/sheet'
 import Logo from './common/logo'
-import Game from '../game'
+import game from '../game'
 
 export default {
   components: {
-    Logo
+    Logo,
+    Sheet
   },
 
   data () {
     return {
       id$: new Subject(),
       mode: 'rhythm',
-      status: null,
+      instrument: 'acoustic_grand_piano', // acoustic_guitar_nylon
       piece: { musician: {} },
-      height: window.innerHeight,
+      windowHeight: window.innerHeight,
       pausedModalVisible: false,
-      isLoaded: false
+      sheetModalVisible: false,
+      isLoaded: false,
+      loadedPercent: 0
     }
   },
 
@@ -78,42 +89,63 @@ export default {
     // FIXME: Rerender the component when changing routes
     this.signal = this.id$
       .mergeMap(id => pieceAPI.getPieceById(id))
+      .catch(() => bus.$emit('toast', { msg: 'Failed to load the MIDI file', type: 'error' }))
       .subscribe(piece => {
         this.piece = piece
         context.title.next(piece.name)
-        setTimeout(() => context.gameStatus.next('playing'), 3000)
+        game.init({
+          instrument: this.instrument,
+          mode: this.mode,
+          piece: this.piece,
+          onProgress: this.onProgress,
+          onLoaded: this.onLoaded
+        })
       })
   },
 
   beforeDestroy () {
     window.removeEventListener('resize', this.wrappedHandleResize)
+    clearTimeout(this.loadTimer)
     context.gameStatus.next('stop')
+    game.stop()
     this.signal.unsubscribe()
   },
 
   methods: {
     handleResize () {
-      this.height = window.innerHeight
+      this.windowHeight = window.innerHeight
     },
 
-    resume () {
-      this.pausedModalVisible = false
+    onProgress (state, progress) {
+      this.loadedPercent = progress * 100
     },
 
-    pause () {
-      this.pausedModalVisible = true
+    onLoaded () {
+      this.loadTimer = setTimeout(() => {
+        context.gameStatus.next('playing')
+        game.start()
+      }, __DEBUG__ ? 0 : 2500)
     },
 
-    restart () {
-
+    switchStatus(status = 'resume') {
+      this.pausedModalVisible = status === 'pause'
+      switch (status) {
+        case 'pause':
+          game.pause()
+          break
+        case 'resume':
+          game.resume()
+          break
+        case 'restart':
+          game.restart()
+          break
+      }
     },
 
-    switchMode (mode) {
+    switchMode (mode = 'rhythm') {
       this.mode = mode
-    },
-
-    switchStatus (Status) {
-
+      this.sheetModalVisible = mode === 'sheet'
+      game.switchMode(mode)
     }
   }
 }
@@ -138,11 +170,31 @@ export default {
     height: inherit
     transition: all 418ms
 
+    .progress
+      position: fixed
+      top: 0
+      left: 0
+      width: 100%
+
+      &-bar
+        height: 2px
+        background: $gray50
+        box-shadow: 0 0 8px alpha($gray50, 50%)
+        transition: width 1218ms, transform 418ms
+
     .logo
       top: 38.2%
 
+    &.v-enter,
+    &.v-leave-active
+      .progress-bar
+        transform: translateY(-32px)
+
     [game-status='loading'] &
-      transition-delay: 918ms
+
+      &,
+      .progress-bar
+        transition-delay: 918ms
 
   .control-layer
     position: relative

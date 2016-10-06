@@ -11,6 +11,7 @@ module.exports = {
   output: commonConfig.output,
   resolve: commonConfig.resolve,
   module: {
+    noParse: [/\.min\.js/],
     loaders: commonConfig.loaders.concat([
       { test: /\.styl$/, loader: ExtractTextPlugin.extract('style', 'css!postcss!stylus', { publicPath: '../' }) },
     ])
