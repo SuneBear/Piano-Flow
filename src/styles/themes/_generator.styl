@@ -5,6 +5,10 @@ generator()
   [themify]
     color: $brand
 
+  [themify-active]
+    &.router-link-active
+      color: $brand
+
   [themify-pseudo]
     &:after,
     &:before
@@ -17,13 +21,16 @@ generator()
       color: $gray85
 
       [themify-darkify]
-        color: $gray85
 
-        .svg-symbol
-          opacity: 0.7
-
-        &:hover
+        &,
+        > button
           color: $gray85
+
+          .svg-symbol
+            opacity: 0.7
+
+          &:hover
+            color: $gray85
 
       [themify-darkify-progress]
         height: 3px

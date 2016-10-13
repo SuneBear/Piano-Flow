@@ -21,9 +21,7 @@ class PieceAPI {
       .concatMap(piece => {
         return Observable.fromPromise(request(piece.midiPath))
           .map(fileBlob => {
-            const reader = new window.FileReader()
-            reader.readAsDataURL(fileBlob)
-            reader.onloadend = () => { piece.midi = reader.result }
+            piece.midiFile = fileBlob
             return piece
           })
       })

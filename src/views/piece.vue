@@ -4,7 +4,7 @@
   <transition appear>
   <div class="control-layer">
     <dropdown class="menu-handler">
-      <btn slot="toggler" icon="menu"></btn>
+      <span themify-darkify slot="toggler"><btn icon="menu"></btn></span>
       <ul class="list">
         <li @click="switchStatus('pause')">Pause</li>
         <li @click="switchStatus('restart')">Restart</li>
@@ -14,7 +14,7 @@
         <!-- <li @click="switchMode('sheet')" :class="{ 'is-active': mode === 'sheet' }"  themify-pseudo>Sheet Music Mode</li> -->
       </ul>
     </dropdown>
-    <router-link :to="{ name: 'pieces' }" class="close-handler"><btn icon="remove"></btn></router-link>
+    <router-link :to="{ name: 'pieces' }" class="close-handler" themify-darkify><btn icon="remove"></btn></router-link>
   </div>
   </transition>
 
@@ -28,7 +28,7 @@
   </transition>
 
   <transition appear>
-  <div class="info-layer">
+  <div class="info-layer" themify-darkify>
     <div class="piece-name">{{piece.fullname}} ~ {{piece.musician.name}}</div>
   </div>
   </transition>
@@ -71,8 +71,8 @@ export default {
       windowHeight: window.innerHeight,
       pausedModalVisible: false,
       sheetModalVisible: false,
-      isLoaded: false,
-      loadedPercent: 0
+      loadedPercent: 0,
+      isLoaded: false
     }
   },
 
@@ -100,6 +100,7 @@ export default {
         context.title.next(piece.name)
         game.init({
           $wrap: this.$el,
+          vm: this,
           theme: getCurrentTheme(),
           instrument: this.instrument,
           mode: this.mode,
@@ -130,7 +131,6 @@ export default {
     onLoaded () {
       this.loadTimer = setTimeout(() => {
         context.gameStatus.next('playing')
-        game.start()
       }, __DEBUG__ ? 0 : 2500)
     },
 
@@ -164,6 +164,12 @@ export default {
 .piece-view
   height: 100%
 
+  &.is-hide-info
+    .control-layer,
+    .info-layer
+      opacity: 0
+      transition: opacity 418ms 0ms
+
   [class*='-layer']
     transition: all 318ms
 
@@ -171,7 +177,7 @@ export default {
     &.v-leave-active
       opacity: 0
       visibility: hidden
-      transform: translateY(30px)
+      transform: translateY(35px)
 
   .loading-layer
     height: inherit
@@ -195,7 +201,7 @@ export default {
     &.v-enter,
     &.v-leave-active
       .progress-bar
-        transform: translateY(-32px)
+        transform: translateY(-37px)
 
     [game-status='loading'] &
 
@@ -206,7 +212,9 @@ export default {
   .control-layer
     position: relative
     z-index: 2
-    transition-delay: 618ms
+
+    [game-status='loading'] &
+      transition-delay: 618ms
 
     > *
       position: absolute
@@ -224,6 +232,7 @@ export default {
     bottom: 20px
     left: 25px
     max-width: 100%
+    opacity: 0.7
 
     [game-status='loading'] &
       transition-delay: 668ms
@@ -236,6 +245,8 @@ export default {
 #game canvas
   position: relative
   z-index: -1
+  -webkit-user-select: none
+  user-select: none
   // transform: scale(0.5)
   transition: all 418ms 218ms
 

@@ -15,14 +15,14 @@ export function getCurrentTheme () {
 
   // Get Colors
   const styles = window.getComputedStyle($theme)
-  const $brand = styles.fill
-  const $bg = styles.backgroundColor
-  const $accent = styles.borderColor
+  const brand = styles.fill
+  const bg = styles.backgroundColor
+  const accent = styles.borderColor
 
   return {
-    name: themeName,
-    $brand: $brand,
-    $bg: $bg,
-    $accent: $accent
+    $name: themeName,
+    brand: brand,
+    bg: bg,
+    accent: accent
   }
 }

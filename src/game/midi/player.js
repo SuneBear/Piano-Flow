@@ -35,6 +35,7 @@ import root from './_root'
 
   player.stop = function () {
     stopAudio()
+    player.clearAnimation()
     player.restart = 0
     player.currentTime = 0
   }
@@ -107,13 +108,10 @@ import root from './_root'
 
   player.loadMidiFile = function (onsuccess, onprogress, onerror) {
     try {
-      // console.log(MidiFile(player.currentData), new Replayer(MidiFile(player.currentData), player.timeWarp, null, player.BPM))
       player.replayer = new Replayer(MidiFile(player.currentData), player.timeWarp, null, player.BPM)
       player.data = player.replayer.getData()
       player.endTime = getLength()
-      // /
       root.loadPlugin({
-        // instruments: player.getFileInstruments(),
         onsuccess: onsuccess,
         onprogress: onprogress,
         onerror: onerror
@@ -124,37 +122,33 @@ import root from './_root'
     }
   }
 
-  player.loadFile = function (file, onsuccess, onprogress, onerror) {
+  player.parseFile = function (file, onsuccess, onprogress, onerror) {
     player.stop()
-    if (file && file.indexOf('base64,') !== -1) {
-      var data = window.atob(file.split(',')[1])
+    const reader = new window.FileReader()
+    reader.readAsDataURL(file)
+    reader.onloadend = () => {
+      const data = window.atob(reader.result.split(',')[1])
       player.currentData = data
       player.loadMidiFile(onsuccess, onprogress, onerror)
-    } else {
-      var fetch = new window.XMLHttpRequest()
-      fetch.open('GET', file)
-      fetch.overrideMimeType('text/plain; charset=x-user-defined')
-      fetch.onreadystatechange = function () {
-        if (this.readyState === 4) {
-          if (this.status === 200) {
-            var t = this.responseText || ''
-            var ff = []
-            var mx = t.length
-            var scc = String.fromCharCode
-            for (var z = 0; z < mx; z++) {
-              ff[z] = scc(t.charCodeAt(z) & 255)
-            }
-            // /
-            var data = ff.join('')
-            player.currentData = data
-            player.loadMidiFile(onsuccess, onprogress, onerror)
-          } else {
-            onerror && onerror('Unable to load MIDI file')
-          }
-        }
-      }
-      fetch.send()
     }
+  }
+
+  player.loadPiece = function (options) {
+    return new Promise((resolve, reject) => {
+      root.loadPlugin({
+        instrument: options.instrument,
+        onprogress: options.onProgress,
+        onsuccess: () => {
+          player.parseFile(options.piece.midiFile, () => {
+            // Change instrument
+            root.channels[0].instrument = root.GM.byName[options.instrument].number
+            // Loaded callback
+            options.onLoaded && options.onLoaded()
+            resolve()
+          })
+        }
+      })
+    })
   }
 
   player.getFileInstruments = function () {
@@ -188,7 +182,6 @@ import root from './_root'
   }
 
   // Playing the audio
-
   var eventQueue = [] // hold events to be triggered
   var queuedTime //
   var startTime = 0 // to measure time elapse
@@ -225,7 +218,7 @@ import root from './_root'
     }, currentTime - offset)
   }
 
-  var getContext = function () {
+  player.getContext = function () {
     if (root.api === 'webaudio') {
       return root.WebAudio.audioContext
     } else {
@@ -272,7 +265,7 @@ import root from './_root'
     var offset = 0
     var messages = 0
     var data = player.data
-    var ctx = getContext()
+    var ctx = player.getContext()
     var length = data.length
     //
     queuedTime = 0.5
@@ -343,7 +336,7 @@ import root from './_root'
   }
 
   var stopAudio = function () {
-    var ctx = getContext()
+    var ctx = player.getContext()
     player.playing = false
     player.restart += (ctx.currentTime - startTime) * 1000
     // stop the audio, and intervals

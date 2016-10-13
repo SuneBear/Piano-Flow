@@ -192,9 +192,9 @@ window.AudioContext && (function () {
         _loadAudio(url, function (buffer) {
           buffer.id = key
           var noteId = root.keyToNote[key]
+          console.log(buffer)
           audio.audioBuffers[instrumentId + '' + noteId] = buffer
           if (--bufferPending[instrumentId] === 0) {
-            soundfont.isLoaded = true
             waitForEnd(instrument)
           }
         }, function (err) {

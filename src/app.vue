@@ -87,8 +87,7 @@ export default {
   transition: transform 518ms cubic-bezier(0.27, 0.17, 0.37, 1.03), background 218ms
 
   [game-status='loading'] &,
-  [game-status='playing'] &,
-  [game-status='paused'] &
+  [game-status='playing'] &
     transform: translateY(0) translateZ(9999px)
 
 </style>

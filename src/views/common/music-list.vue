@@ -5,7 +5,7 @@
       class="piece-item"
       :title="piece.fullname"
       :to="{ name: 'piece', params: { id: piece.id } }"
-      active-class>
+      active-class themify-active>
       <span class="avatar info-avatar" :style="{backgroundImage: 'url(' + piece.musician.avatar + ')'}"></span>
       <span class="info-name">
         {{piece.name}}
@@ -29,6 +29,7 @@ export default {
     }
   },
 
+  // TODO: Add a filter input
   created () {
     pieceAPI.getPieces()
       .subscribe(data => {
@@ -74,10 +75,6 @@ export default {
 
     & + .piece-item
       margin-top: 30px
-
-    &.router-link-active
-      .info-name
-        color: $brand
 
     &.router-link-active,
     &:hover

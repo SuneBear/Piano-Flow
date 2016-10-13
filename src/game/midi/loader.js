@@ -19,7 +19,7 @@ import { request } from './utils'
 import root from './_root'
 
 root.Soundfont = {}
-root.soundfontUrl = './soundfont/'
+root.soundfontUrl = './assets/soundfonts/'
 
 /*
   root.loadPlugin({
@@ -36,7 +36,7 @@ root.loadPlugin = function (opts) {
 
   root.soundfontUrl = opts.soundfontUrl || root.soundfontUrl
   root.__api = 'webaudio'
-  root.__audioFormat = 'ogg'
+  root.__audioFormat = 'mp3'
 
   root.loadResource(opts)
 }
@@ -79,6 +79,7 @@ var requestQueue = function (opts, context) {
   var audioFormat = opts.format
   var instruments = opts.instruments
   var onprogress = opts.onprogress
+  var onsuccess = opts.onsuccess
   var onerror = opts.onerror
   // /
   var length = instruments.length
@@ -86,7 +87,8 @@ var requestQueue = function (opts, context) {
   var waitForEnd = function () {
     if (!--pending) {
       onprogress && onprogress('load', 1.0)
-      root[context]._connect(opts)
+      // root.connect[context](opts)
+      onsuccess && onsuccess()
     }
   }
   // /

@@ -7,7 +7,7 @@
       'is-block': block,
       'is-loading': loading
     }]"
-    @click="handleClick" themify-darkify>
+    @click="handleClick">
     <icon :symbol="computedIcon" transition="expand-width" v-if="computedIcon"></icon>
     <slot></slot>
   </button>

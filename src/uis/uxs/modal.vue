@@ -133,7 +133,7 @@ export default {
   top: 0
   width: 100%
   height: 100%
-  opacity: .90
+  opacity: .94
   background: $gray97
 
   &-enter
@@ -206,6 +206,11 @@ export default {
     top: 2px
     cursor: pointer
     transition: all 318ms
+
+    // Increasing the Clickable Area
+    margin: -.5em
+    padding: .5em
+    box-sizing: content-box
 
     &:hover
       color: $red !important
