@@ -35,9 +35,18 @@ const pieces = [
   {
     name: 'Air on the G String',
     suite: 'Orchestral Suite',
-    number: 3,
-    id: 'BWV 1068',
+    number: 3, // Combine with suite
+    snc: 'BWV 1068', // Standard Numbered Catalogue
     pitch: 'D',
+    musician: musiciansMap['Johann Sebastian Bach'],
+    theme: 'moonized'
+  },
+  {
+    name: 'Prelude in C',
+    suite: null,
+    number: 1,
+    snc: 'WTC Bk. 1',
+    pitch: 'C',
     musician: musiciansMap['Johann Sebastian Bach'],
     theme: 'moonized'
   },
@@ -64,12 +73,37 @@ const pieces = [
     pitch: 'C Minor',
     musician: musiciansMap['Ludwig van Beethoven'],
     theme: 'moonized'
+  },
+  {
+    name: 'Symphony No.5, 1st',
+    suite: null,
+    snc: 'Op.67',
+    pitch: 'C minor',
+    musician: musiciansMap['Ludwig van Beethoven'],
+    theme: 'moonized'
+  },
+  {
+    name: 'Ballade, 3rd',
+    suite: null,
+    snc: 'Op.118',
+    pitch: 'G',
+    musician: musiciansMap['Johannes Brahms'],
+    theme: 'moonized'
+  },
+  {
+    name: 'Capriccio, 2rd',
+    suite: null,
+    snc: 'Op.76',
+    pitch: 'B minor',
+    musician: musiciansMap['Johannes Brahms'],
+    theme: 'moonized'
   }
 ]
 
 // Generate piece fullname & ID
 pieces.map(piece => {
-  const fullname = `${piece.name} via ${piece.suite}, No.${piece.number}`
+  let fullname = `${piece.name} via ${piece.suite || piece.snc}`
+  if (piece.number) fullname += `, No.${piece.number}`
   const id = fullname.replace(/(,?\s|\.)/g, '-').replace(/é/g, 'e')
   piece.fullname = fullname
   piece.id = id

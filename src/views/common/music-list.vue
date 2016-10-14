@@ -9,8 +9,8 @@
       <span class="avatar info-avatar" :style="{backgroundImage: 'url(' + piece.musician.avatar + ')'}"></span>
       <span class="info-name">
         {{piece.name}}
-        <span class="subinfo-suite" v-if="piece.suite">
-        via {{piece.suite}}<span v-if="piece.number" class="subinfo-number">, No.{{piece.number}}</span>
+        <span class="subinfo-suite" v-if="piece.suite || piece.snc">
+        via {{piece.suite || piece.snc}}<span v-if="piece.number" class="subinfo-number">, No.{{piece.number}}</span>
         </span>
       </span>
       <span class="info-musician">{{piece.musician.name}}</span>

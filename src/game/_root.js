@@ -125,7 +125,8 @@ class Root {
   _onTouchStart (event) {
     if (event.target.tagName === 'CANVAS' || event.target.isSameNode(this.$wrap)) {
       this.performer.handleTouch(event)
-      this._hideInfoOverlay()
+      // TODO: Special handling
+      // this._hideInfoOverlay()
     }
   }
 

@@ -14,6 +14,13 @@ const musicians = [
     style: 'Classical'
   },
   {
+    name: 'Johannes Brahms',
+    alias: 'Brahms',
+    birthday: '1833-05-07',
+    country: 'Germany',
+    style: 'Classical'
+  },
+  {
     name: 'Claude Debussy',
     alias: 'Claude-Achille Debussy',
     birthday: '1862-08-22',
