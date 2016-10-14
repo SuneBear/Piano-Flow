@@ -1,11 +1,11 @@
 # Piano Flow
-A music game follows the piano flows. Its rhythm mode inspired by [Touch Pianist](http://touchpianist.com), thanks to Batuhan Bozkurt. The main purpose I made it was to achieve a dream of my youth and to help me practice the fundamentals of MUG.
+A music game follows the piano flows. Its rhythm mode inspired by Touch Pianist, thanks to Batuhan Bozkurt. The main purpose I made it was to achieve a dream of my youth and to help me practice the fundamentals of MUG.
 
 I need to be honest with you, the game has a bad playability which can't make you feel completely immersed with simple interaction. Maybe it will improve your gameplay through a virtual reality headset, but I think the best experience is on a real piano nowadays.
 
 ## Run on Local
 ``` bash
-$ git clone git@github.com/SuneBear/Piano-Flow.git
+$ git clone git@github.com:SuneBear/Piano-Flow.git
 $ cd Piano-Flow
 $ npm install
 $ npm start

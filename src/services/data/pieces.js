@@ -47,7 +47,7 @@ const pieces = [
     number: 14,
     pitch: 'C Sharp Minor',
     musician: musiciansMap['Ludwig van Beethoven'],
-    theme: 'moonized'
+    theme: 'midnight'
   },
   {
     name: 'Moonlight, 3rd',
@@ -55,7 +55,7 @@ const pieces = [
     number: 14,
     pitch: 'C Sharp Minor',
     musician: musiciansMap['Ludwig van Beethoven'],
-    theme: 'moonized'
+    theme: 'midnight'
   },
   {
     name: 'Pathétique',
