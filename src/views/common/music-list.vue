@@ -4,7 +4,7 @@
    <router-link v-for="piece in pieces"
       class="piece-item"
       :title="piece.fullname"
-      :to="{ name: 'piece', params: { id: piece.id } }"
+      :to="{ name: 'piece', params: { id: piece.id, theme: piece.theme } }"
       active-class themify-active>
       <span class="avatar info-avatar" :style="{backgroundImage: 'url(' + piece.musician.avatar + ')'}"></span>
       <span class="info-name">

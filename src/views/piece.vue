@@ -88,6 +88,7 @@ export default {
     if (__DEBUG__) window.game = game
     this.wrappedHandleResize = _.throttle(this.handleResize, 50)
     window.addEventListener('resize', this.wrappedHandleResize)
+    if (this.$route.params.theme) context.theme.next(this.$route.params.theme)
     context.gameStatus.next('loading')
     context.gameStatus.subscribe(status => this.isLoaded = status !== 'loading')
     // FIXME: Rerender the component when changing routes
@@ -96,8 +97,8 @@ export default {
       .catch(() => bus.$emit('toast', { msg: 'Failed to load the MIDI file', type: 'error' }))
       .subscribe(piece => {
         this.piece = piece
-        context.theme.next(piece.theme)
         context.title.next(piece.name)
+        context.theme.next(piece.theme)
         game.init({
           $wrap: this.$el,
           vm: this,

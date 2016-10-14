@@ -49,6 +49,7 @@ export default {
 
   > .logo
     left: 50%
+
     top: 38.2%
     margin-top: -40px
     margin-left: -40px
@@ -84,7 +85,7 @@ export default {
   left: 0
   // Safari Bug: http://stackoverflow.com/questions/5472802/css-z-index-lost-after-webkit-transform-translate3d
   transform: translateY(100%) translateZ(9999px)
-  transition: transform 518ms cubic-bezier(0.27, 0.17, 0.37, 1.03), background 218ms
+  transition: transform 518ms cubic-bezier(0.27, 0.17, 0.37, 1.03)
 
   [game-status='loading'] &,
   [game-status='playing'] &

@@ -138,7 +138,7 @@ export default class ConductorPerformer {
   }
 
   calcBunchPositions (bunchInfos) {
-    let spacingFactor = (0.1 * bunchInfos.length * root.width) / (bunchInfos[bunchInfos.length - 1][0][0] - bunchInfos[0][0][0])
+    let spacingFactor = (0.05 * bunchInfos.length * root.width) / (bunchInfos[bunchInfos.length - 1][0][0] - bunchInfos[0][0][0])
     spacingFactor *= root.spacingMultiplier
     let initTime = bunchInfos[0][0][0]
     // TODO: Limit min and max distance

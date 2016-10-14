@@ -35,7 +35,7 @@ class Root {
       transparent: true,
       autoResize: true, // TODO: Handle resize
       antialias: true,
-      resolution: window.devicePixelRatio
+      resolution: 1 || window.devicePixelRatio // TODO: Optimize Ratio
     }
 
     const type = navigator.userAgent.match(/Version\/[\d\.]+.*Safari/) ? '2d' : 'auto'

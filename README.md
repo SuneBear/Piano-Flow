@@ -28,7 +28,7 @@ $ npm start
 ├── main.js       # Client Entry Point
 ├── router.js     # Route Map and Router Instance
 ```
-The structure is a experimental combination of SPA based on Vue 2 and MUG based on Pixi.js, MIDI.js, etc. They basically are independent, but using the shared assets and services.
+The structure is a experimental combination of SPA based on Vue 2 and MUG based on Pixi.js, MIDI.js, etc. They are basically independent, but using the shared assets and services.
 
 ## Further Improvements
 - Brand Redesign & UI Redesign & Animation Tuning
