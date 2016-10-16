@@ -10,8 +10,6 @@ class Root {
 
   constructor () {
     this.audioCtx = new (window.AudioContext || window.webkitAudioContext)()
-    this.width = window.innerWidth
-    this.height = window.innerHeight
     this.shouldAutoRender = false // isPlaying
 
     this.mdown = this._onMouseDown.bind(this)
@@ -24,7 +22,13 @@ class Root {
     this.kdown = this._onKeyDown.bind(this)
     this.kup = this._onKeyUp.bind(this)
 
+    this._ready()
     this._setupRender()
+  }
+
+  _ready () {
+    this.width = window.innerWidth
+    this.height = window.innerHeight
   }
 
   _setupRender () {
@@ -33,7 +37,7 @@ class Root {
 
     const options = {
       transparent: true,
-      autoResize: true, // TODO: Handle resize
+      autoResize: true,
       antialias: true,
       resolution: 1 || window.devicePixelRatio // TODO: Optimize Ratio
     }
@@ -57,6 +61,7 @@ class Root {
     this.mode = options.mode
     this.vm = options.vm
     this.instrument = options.instrument
+    this.repeatOnHold = options.repeatOnHold
 
     this.initLocation = options.location || 0
     this.spacingMultiplier = options.spacingMultiplier || 1
@@ -75,6 +80,7 @@ class Root {
   }
 
   _update (timestamp) {
+    // REF: https://hacks.mozilla.org/2011/08/animating-with-javascript-from-setinterval-to-requestanimationframe/
     this.renderRaf = window.requestAnimationFrame(this._update.bind(this))
     this.renderer.render(this.stage)
     if (this.shouldAutoRender) this.performer && this.performer.redraw(timestamp)
@@ -182,13 +188,12 @@ class Root {
 
   _clear () {
     this._stopRender()
-    for (let i = this.stage.children.length - 1; i >= 0; i--) {
-      this.stage.removeChild(this.stage.children[i])
-    }
+    this.samplePlayer.offAllNotes()
+    this.stage.removeChildren()
     this.renderer.render(this.stage)
   }
 
-  _endPiece () {
+  endPiece () {
     this.mode = 'rhythm' // Avoid autoplay in a loop
     this.vm.mode = 'rhythm'
     this.restart()
@@ -205,13 +210,22 @@ class Root {
   stop () {
     // FIXME: Destroy the old instances when the game stops
     window.cancelAnimationFrame(this.renderRaf)
-    this.samplePlayer.offAllNotes()
     this._clear()
   }
 
   restart () {
     this.stop()
     this._mount()
+  }
+
+  // Handle resize & orientationchange
+  rerender () {
+    this.stop()
+    this._ready()
+    this.renderer.resize(this.width, this.height)
+    this.performer.render()
+    this._update()
+    if (!this.vm.pausedModalVisible) this._startRender()
   }
 
   switchMode (mode) {

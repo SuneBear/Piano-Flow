@@ -33,8 +33,8 @@ export default class ConductorSounder {
       const newOn = []
       for (let i = 0; i < this.currentlyOn.length; i++) {
         const noteVis = this.currentlyOn[i]
-        if (noteVis.noteOffTick <= this.lastOnTick && this.pitchPressStatus[noteVis.notePitch] === 1) {
-          root.samplePlayer.noteOff(noteVis.notePitch, 0)
+        if (noteVis.noteOffTick <= this.lastOnTick) {
+          this.pitchPressStatus[noteVis.notePitch] === 1 && root.samplePlayer.noteOff(noteVis.notePitch, 0)
           this.pitchPressStatus[noteVis.notePitch]--
         } else {
           newOn.push(noteVis)
@@ -42,15 +42,13 @@ export default class ConductorSounder {
       }
       this.currentlyOn = newOn.slice(0)
       let lastPlayedTotalVel = 0
+      let firstStartTime = bunch[0].noteOnTick
       for (let i = 0; i < bunch.length; i++) {
         const noteVis = bunch[i]
         const velocity = this.scaleVelocity2(noteVis.noteVel, power)
         const delta = (noteVis.notePitch - root.samplePlayer.noteOffset) / 87 * 1 - 0.5
-        if (i === bunch.length - 1) {
-          root.samplePlayer.noteOn(noteVis.notePitch, velocity, 0, delta)
-        } else {
-          root.samplePlayer.noteOn(noteVis.notePitch, velocity, 30 * Math.random() / 1000, delta)
-        }
+        const delay = (noteVis.noteOnTick - firstStartTime) / 1000
+        root.samplePlayer.noteOn(noteVis.notePitch, velocity, delay, delta)
         this.pitchPressStatus[noteVis.notePitch]++
         this.currentlyOn.push(noteVis)
         this.lastOnTick = noteVis.noteOnTick
@@ -63,22 +61,20 @@ export default class ConductorSounder {
   depress () {
     this.numPress--
     this.numPress < 0 && (this.numPress = 0)
-    if (this.nextOnBunch < root.performer.noteObjects.length) {
-      if (this.numPress === 0) {
-        let noteOnTick = root.performer.noteObjects[this.nextOnBunch][0].noteOnTick
-        const newOn = []
-        for (let i = 0; i < this.currentlyOn.length; i++) {
-          const noteVis = this.currentlyOn[i]
-          if (noteVis.noteOffTick <= noteOnTick && this.pitchPressStatus[noteVis.notePitch] === 1) {
-            noteVis.stopEmittingParticles()
-            root.samplePlayer.noteOff(noteVis.notePitch, 0.1)
-            this.pitchPressStatus[noteVis.notePitch]--
-          } else {
-            newOn.push(noteVis)
-          }
+    if (this.nextOnBunch < root.performer.noteObjects.length && this.numPress === 0) {
+      let noteOnTick = root.performer.noteObjects[this.nextOnBunch][0].noteOnTick
+      const newOn = []
+      for (let i = 0; i < this.currentlyOn.length; i++) {
+        const noteVis = this.currentlyOn[i]
+        if (noteVis.noteOffTick <= noteOnTick && this.pitchPressStatus[noteVis.notePitch] === 1) {
+          noteVis.stopEmittingParticles()
+          root.samplePlayer.noteOff(noteVis.notePitch, 0.1)
+          this.pitchPressStatus[noteVis.notePitch]--
+        } else {
+          newOn.push(noteVis)
         }
-        this.currentlyOn = newOn.slice(0)
       }
+      this.currentlyOn = newOn.slice(0)
     } else if (this.numPress === 0) {
       for (let i = 0; i < this.currentlyOn.length; i++) {
         const noteVis = this.currentlyOn[i]

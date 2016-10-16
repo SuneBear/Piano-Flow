@@ -14,10 +14,24 @@ const musicians = [
     style: 'Classical'
   },
   {
+    name: 'Frédéric François Chopin',
+    alias: 'Frederic Chopin',
+    birthday: '1810-03-01',
+    country: 'Poland',
+    style: 'Classical'
+  },
+  {
     name: 'Johannes Brahms',
     alias: 'Brahms',
     birthday: '1833-05-07',
     country: 'Germany',
+    style: 'Classical'
+  },
+  {
+    name: 'Edvard Hagerup Grieg',
+    alias: 'Edvard Grieg',
+    birthday: '1843-06-15',
+    country: 'Norway',
     style: 'Classical'
   },
   {

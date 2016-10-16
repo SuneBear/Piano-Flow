@@ -86,7 +86,7 @@ export default {
 
   mounted () {
     if (__DEBUG__) window.game = game
-    this.wrappedHandleResize = _.throttle(this.handleResize, 50)
+    this.wrappedHandleResize = _.debounce(this.handleResize, 168)
     window.addEventListener('resize', this.wrappedHandleResize)
     if (this.$route.params.theme) context.theme.next(this.$route.params.theme)
     context.gameStatus.next('loading')
@@ -123,6 +123,7 @@ export default {
   methods: {
     handleResize () {
       this.windowHeight = window.innerHeight
+      game.rerender()
     },
 
     onProgress (state, progress) {

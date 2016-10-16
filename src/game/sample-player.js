@@ -26,6 +26,7 @@ export default class SamplePlayer {
     let panY = panX + 90
     panY > 90 && (panY = 180 - panY)
 
+    startTime < this.ctx.currentTime && (startTime += this.ctx.currentTime)
     const source = this.ctx.createBufferSource()
     this.sources[notePitch] && this.duplicateNoteOff(notePitch)
     this.sources[notePitch] = source

@@ -14,7 +14,7 @@ export default class GhostPlayer {
   }
 
   ready () {
-    this.curEventIndex = root.performer.nextTargetBunchIndex
+    this.curEventIndex = root.performer.firstVisibleBunchIndex
     this.nextOn = this.data[this.curEventIndex][0]
     this.nextOffs = []
     this.curTime = this.nextOn - 1000
@@ -26,6 +26,7 @@ export default class GhostPlayer {
       this.pressFunc()
       this.nextOffs.push(this.data[this.curEventIndex][1] + this.curTime)
       this.curEventIndex++
+      if (this.curEventIndex >= this.data.length) return
       this.nextOn = this.data[this.curEventIndex][0]
     }
     if (this.nextOffs.length > 0) {

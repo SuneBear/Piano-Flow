@@ -14,11 +14,12 @@ export default class ConductorPerformer {
     this.bunchInfos = []
     this.ghostInfos = []
     this.firstVisibleBunchIndex = location
-    this.nextTargetBunchIndex = location
+    this.nextTargetBunchIndex = location // firstVisibleBunchIndex is equal to nextTargetBunchIndex
     this.isGhostMode = isGhost
 
     this.bunchPositions = []
     this.noteObjects = []
+
     this.pressedKeys = []
     this.noteTexture = noteTexture
     this.noteTexture.baseTexture.premultipliedAlpha = false
@@ -40,13 +41,19 @@ export default class ConductorPerformer {
       this.noteInfos = this.generateNoteInfos(MIDI.Player.data)
       this.bunchInfos = this.generateBunchInfos(this.noteInfos)
       this.ghostInfos = this.generateGhostInfos(this.bunchInfos)
-      this.calcBunchPositions(this.bunchInfos)
-      this.initNoteObjects(this.bunchInfos)
+      this.render()
+
       this.ghostPlayer = new GhostPlayer(this.ghostOn.bind(this), this.ghostOff.bind(this))
       this.sounder = new ConductorSounder()
       this.sounder.setLocation(this.firstVisibleBunchIndex)
+
       root.performerReady()
     }, 0)
+  }
+
+  render () {
+    this.bunchPositions = this.generateBunchPositions(this.bunchInfos)
+    this.noteObjects = this.generateNoteObjects(this.bunchInfos)
   }
 
   generateColorTheme (theme) {
@@ -112,7 +119,7 @@ export default class ConductorPerformer {
     // TODO: Combine notes more flexible
     for (let i = 0; i < noteInfos.length; i++) {
       const { startTime, endTime, notePitch, velocity } = noteInfos[i]
-      if (startTime !== currentStartTime) {
+      if (Math.abs(startTime - currentStartTime) > (1000 / 10) && velocity > 16) { // startTime !== currentStartTime
         currentStartTime = startTime
         bunch.sort((a, b) => a[2] - b[2])
         bunchInfos.push(bunch)
@@ -137,20 +144,24 @@ export default class ConductorPerformer {
     return ghostInfos
   }
 
-  calcBunchPositions (bunchInfos) {
-    let spacingFactor = (0.05 * bunchInfos.length * root.width) / (bunchInfos[bunchInfos.length - 1][0][0] - bunchInfos[0][0][0])
+  generateBunchPositions (bunchInfos) {
+    const bunchPositions = []
+    let spacingFactor = (0.07 * bunchInfos.length * root.width) / (bunchInfos[bunchInfos.length - 1][0][0] - bunchInfos[0][0][0])
     spacingFactor *= root.spacingMultiplier
+    spacingFactor = Math.max(spacingFactor, 0.27) // Minimum
     let initTime = bunchInfos[0][0][0]
     // TODO: Limit min and max distance
     for (let i = 0; i < bunchInfos.length; i++) {
       const bunch = bunchInfos[i]
       let nextTime = bunch[0][0]
       nextTime -= initTime
-      this.bunchPositions.push(nextTime * spacingFactor)
+      bunchPositions.push(nextTime * spacingFactor)
     }
+    return bunchPositions
   }
 
-  initNoteObjects (bunchInfos) {
+  generateNoteObjects (bunchInfos) {
+    const noteObjects = []
     let minPitch = 999999
     let maxPitch = -999999
     for (let i = 0; i < bunchInfos.length; i++) {
@@ -165,14 +176,16 @@ export default class ConductorPerformer {
     for (let i = 0; i < bunchInfos.length; i++) {
       const bunch = bunchInfos[i]
       const noteVisBunch = []
-      this.noteObjects.push(noteVisBunch)
+      noteObjects.push(noteVisBunch)
       for (let j = 0; j < bunch.length; j++) {
         const note = bunch[j]
         let positionY = (1 - (note[2] - minPitch) / (maxPitch - minPitch)) * root.height
-        positionY *= 0.75
-        positionY += 0.05 * root.height
+        positionY *= 0.70
+        positionY += 0.1 * root.height
         // TODO: Limit min and max size
-        const size = note[3] / 127 * 0.96
+        let size = note[3] / 127 * 0.96
+        size = Math.max(size, 0.25) // Minimum
+        size = Math.min(size, 0.6) // Maximum
         const noteVis = new ConductorNoteVis(this.bunchPositions[index], positionY, size, note)
         noteVis.setScale(0.003125 * root.height * (128 / this.noteTexture.width) * 0.4 * root.sizeMultiplier)
         noteVisBunch.push(noteVis)
@@ -203,6 +216,8 @@ export default class ConductorPerformer {
       }
       index++
     }
+
+    return noteObjects
   }
 
   redraw (timestamp) {
@@ -217,14 +232,14 @@ export default class ConductorPerformer {
 
     for (let i = this.firstVisibleBunchIndex; i < this.noteObjects.length; i++) {
       const bunch = this.noteObjects[i]
-      let isOnStage = false
-      let outOfScreen = true
+      let isBunchOnStage = false
+      let outOfStage = false
       for (let j = 0; j < bunch.length; j++) {
         const note = bunch[j]
         const noteX = this.warpX(note.curX, note.curY)
         const noteY = this.warpY(note.curX, note.curY)
         if (noteX >= 0 && noteX <= 1.2 * root.width) {
-          isOnStage = true
+          isBunchOnStage = true
           note.setPosition(noteX, noteY)
           !note.isOnStage && note.addSelfToStage(root.stage)
           note.advance(deltaTime)
@@ -234,10 +249,10 @@ export default class ConductorPerformer {
           }
         }
         if (noteX < 0 && note.isOnStage) note.removeSelfFromStage(root.stage)
-        if (noteX < root.width) outOfScreen = false
+        if (noteX > root.width) outOfStage = true
       }
-      if (outOfScreen) break
-      if (!isOnStage) {
+      if (outOfStage) break // Stage locking
+      if (!isBunchOnStage) {
         for (let i = 0; i < this.noteObjects[this.firstVisibleBunchIndex].length; i++) {
           let j = this.noteObjects[this.firstVisibleBunchIndex][i]
           j.isOnStage && j.removeSelfFromStage(root.stage)
@@ -273,6 +288,7 @@ export default class ConductorPerformer {
       if (this.nextTargetBunchIndex === this.noteObjects.length) {
         this.nextTargetBunchIndex--
         this.pieceEnded = true
+        this.isGhostMode && root.endPiece()
       }
     }
   }
@@ -281,7 +297,7 @@ export default class ConductorPerformer {
     event.preventDefault()
     if (this.isGhostMode) return root.ghostWasSpooked()
     if (this.pressedKeys.indexOf(event.keyCode) === -1) {
-      this.pressedKeys.push(event.keyCode)
+      !root.repeatOnHold && this.pressedKeys.push(event.keyCode)
       this.lastPlayedTotalVel = this.sounder.press(0.5)
       this.pressAdvance()
     }
@@ -304,7 +320,7 @@ export default class ConductorPerformer {
     for (let i = 0; i < event.changedTouches.length; i++) {
       const touch = event.changedTouches[i]
       if (this.touchedIds.indexOf(touch.identifier) === -1) {
-        this.touchedIds.push(touch.identifier)
+        !root.repeatOnHold && this.touchedIds.push(touch.identifier)
         const power = (root.height - touch.clientY) / root.height
         this.lastPlayedTotalVel = this.sounder.press(power)
         this.numTouched++
