@@ -107,7 +107,7 @@ const pieces = [
   {
     name: 'Symphony No.5, 1st',
     snc: 'Op.67',
-    pitch: 'C minor',
+    pitch: 'C Minor',
     musician: musiciansMap['Ludwig van Beethoven'],
     theme: 'moonized'
   },
@@ -121,7 +121,7 @@ const pieces = [
   {
     name: 'Capriccio, 2nd',
     snc: 'Op.76',
-    pitch: 'B minor',
+    pitch: 'B Minor',
     musician: musiciansMap['Johannes Brahms'],
     theme: 'moonized'
   },
@@ -204,6 +204,138 @@ const pieces = [
     number: '4',
     pitch: '',
     musician: musiciansMap['Edvard Hagerup Grieg'],
+    theme: 'moonized'
+  },
+  {
+    name: 'Fantasy in C',
+    snc: 'K. 475',
+    pitch: 'C minor',
+    musician: musiciansMap['Wolfgang Amadeus Mozart'],
+    theme: 'moonized'
+  },
+  {
+    name: 'Fantasy in D',
+    snc: 'K. 397',
+    pitch: 'D minor',
+    musician: musiciansMap['Wolfgang Amadeus Mozart'],
+    theme: 'moonized'
+  },
+  {
+    name: 'Sonata, 3rd',
+    snc: 'K. 331',
+    pitch: 'A',
+    musician: musiciansMap['Wolfgang Amadeus Mozart'],
+    theme: 'moonized'
+  },
+  {
+    name: 'Ah vous dirai-je, Maman',
+    suite: 'Twelve Variations',
+    musician: musiciansMap['Wolfgang Amadeus Mozart'],
+    theme: 'moonized'
+  },
+  {
+    name: 'Bydlo',
+    suite: 'Pictures at an Exhibition',
+    musician: musiciansMap['Modest Mussorgsky'],
+    theme: 'moonized'
+  },
+  {
+    name: 'Promenade',
+    suite: 'Pictures at an Exhibition',
+    musician: musiciansMap['Modest Mussorgsky'],
+    theme: 'moonized'
+  },
+  {
+    name: 'Waltz of the Flowers',
+    suite: 'The Nutcracker',
+    number: '20',
+    musician: musiciansMap['Pyotr Ilyich Tchaikovsky'],
+    theme: 'moonized'
+  },
+  {
+    name: 'Dances of the Little Swans',
+    suite: 'Swan Lake',
+    snc: 'Op.20',
+    number: '13d',
+    musician: musiciansMap['Pyotr Ilyich Tchaikovsky'],
+    theme: 'moonized'
+  },
+  {
+    name: 'Old French Song',
+    snc: 'Op.39',
+    number: '16',
+    musician: musiciansMap['Pyotr Ilyich Tchaikovsky'],
+    theme: 'moonized'
+  },
+  {
+    name: 'Flight of the Bumblebee',
+    suite: 'The Tale of Tsar Saltan',
+    musician: musiciansMap['Sergei Rachmaninoff'],
+    theme: 'moonized'
+  },
+  {
+    name: 'Wedding March',
+    suite: 'A Midsummer Night\'s Dream',
+    snc: 'Op.61',
+    number: '3',
+    pitch: 'C',
+    musician: musiciansMap['Felix Mendelssohn'],
+    theme: 'moonized'
+  },
+  {
+    name: 'Spring Song',
+    snc: 'Op.62',
+    number: '6',
+    pitch: 'A',
+    musician: musiciansMap['Felix Mendelssohn'],
+    theme: 'moonized'
+  },
+  {
+    name: 'Song without Words',
+    snc: 'Op.85',
+    number: '1',
+    pitch: 'F',
+    musician: musiciansMap['Felix Mendelssohn'],
+    theme: 'moonized'
+  },
+  {
+    name: 'La campanella',
+    alisa: 'The little bell',
+    suite: 'Paganini Etude',
+    number: '3',
+    pitch: 'G',
+    musician: musiciansMap['Franz Liszt'],
+    theme: 'moonized'
+  },
+  {
+    name: 'Impromptu in G flat',
+    snc: 'Op.90',
+    number: '3',
+    pitch: 'G flat',
+    musician: musiciansMap['Franz Schubert'],
+    theme: 'moonized'
+  },
+  {
+    name: 'Impromptu in A flat',
+    snc: 'Op.90',
+    number: '4',
+    pitch: 'A flat',
+    musician: musiciansMap['Franz Schubert'],
+    theme: 'moonized'
+  },
+  {
+    name: 'Almost Too Serious',
+    snc: 'Op.15',
+    number: '10',
+    pitch: 'G Sharp',
+    musician: musiciansMap['Robert Schumann'],
+    theme: 'moonized'
+  },
+  {
+    name: 'Sonata, 1st',
+    snc: 'Hob. XVI 52',
+    pitch: 'E flat',
+    musician: musiciansMap['Joseph Haydn'],
     theme: 'moonized'
   }
 ]
