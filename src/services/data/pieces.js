@@ -16,7 +16,7 @@ const pieces = [
     suite: 'Suite Bergamasque',
     number: 2,
     musician: musiciansMap['Claude Debussy'],
-    theme: 'midnight'
+    theme: 'freshorigin'
   },
   {
     name: 'Clair de Lune',
@@ -52,7 +52,7 @@ const pieces = [
     snc: 'L. 121',
     pitch: '',
     musician: musiciansMap['Claude Debussy'],
-    theme: 'moonized'
+    theme: 'midnight'
   },
   {
     name: 'The Girl With The Flaxen Hair',
@@ -196,7 +196,7 @@ const pieces = [
     number: '6',
     pitch: '',
     musician: musiciansMap['Edvard Hagerup Grieg'],
-    theme: 'moonized'
+    theme: 'fantasy'
   },
   {
     name: 'Solveigs sang',
@@ -237,7 +237,7 @@ const pieces = [
     name: 'Bydlo',
     suite: 'Pictures at an Exhibition',
     musician: musiciansMap['Modest Mussorgsky'],
-    theme: 'moonized'
+    theme: 'monochrome'
   },
   {
     name: 'Promenade',
@@ -250,7 +250,7 @@ const pieces = [
     suite: 'The Nutcracker',
     number: '20',
     musician: musiciansMap['Pyotr Ilyich Tchaikovsky'],
-    theme: 'moonized'
+    theme: 'fantasy'
   },
   {
     name: 'Dances of the Little Swans',
@@ -258,14 +258,14 @@ const pieces = [
     snc: 'Op.20',
     number: '13d',
     musician: musiciansMap['Pyotr Ilyich Tchaikovsky'],
-    theme: 'moonized'
+    theme: 'monochrome'
   },
   {
     name: 'Old French Song',
     snc: 'Op.39',
     number: '16',
     musician: musiciansMap['Pyotr Ilyich Tchaikovsky'],
-    theme: 'moonized'
+    theme: 'bygone'
   },
   {
     name: 'Flight of the Bumblebee',
@@ -280,7 +280,7 @@ const pieces = [
     number: '3',
     pitch: 'C',
     musician: musiciansMap['Felix Mendelssohn'],
-    theme: 'moonized'
+    theme: 'lovepotion'
   },
   {
     name: 'Spring Song',

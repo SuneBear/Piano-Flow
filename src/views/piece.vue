@@ -6,12 +6,14 @@
     <dropdown class="menu-handler">
       <span themify-darkify slot="toggler"><btn icon="menu"></btn></span>
       <ul class="list">
-        <li @click="switchStatus('pause')">Pause</li>
+        <li @click="switchStatus('pause')">Pause<span class="more-info hotkey">ESC</span></li>
         <li @click="switchStatus('restart')">Restart</li>
         <li class="divider"></li>
         <li @click="switchMode('rhythm')" :class="{ 'is-active': mode === 'rhythm' }" themify-pseudo>Rhythm Mode</li>
         <li @click="switchMode('autoplay')" :class="{ 'is-active': mode === 'autoplay' }" themify-pseudo>Autoplay Mode</li>
         <!-- <li @click="switchMode('sheet')" :class="{ 'is-active': mode === 'sheet' }"  themify-pseudo>Sheet Music Mode</li> -->
+        <li class="divider"></li>
+        <li @click="openGitHub">Fork me on GitHub</li>
       </ul>
     </dropdown>
     <router-link :to="{ name: 'pieces' }" class="close-handler" themify-darkify><btn icon="remove"></btn></router-link>
@@ -63,10 +65,31 @@ export default {
   },
 
   data () {
+    const query = this.$route.query
+
+    const isSupportedMode = function (mode) {
+      const supportedModes = [
+        'rhythm',
+        'autoplay'
+      ]
+      return supportedModes.indexOf(mode) !== -1
+    }
+
+    const isSupportedInstrument = function (instrument) {
+      const supportedInstruments = [
+        'acoustic_grand_piano',
+        'acoustic_guitar_nylon',
+        'banjo',
+        'taiko_drum'
+      ]
+      return supportedInstruments.indexOf(instrument) !== -1
+    }
+
     return {
       id$: new Subject(),
-      mode: 'rhythm',
-      instrument: 'acoustic_grand_piano', // acoustic_guitar_nylon
+      mode: isSupportedMode(query.mode) ? query.mode : 'rhythm',
+      instrument: isSupportedInstrument(query.instrument) ? query.instrument : 'acoustic_grand_piano',
+      location: parseInt(query.location) || 0,
       piece: { musician: {} },
       windowHeight: window.innerHeight,
       pausedModalVisible: false,
@@ -86,14 +109,17 @@ export default {
 
   mounted () {
     if (__DEBUG__) window.game = game
+
     this.wrappedHandleResize = _.debounce(this.handleResize, 168)
     window.addEventListener('resize', this.wrappedHandleResize)
     if (this.$route.params.theme) context.theme.next(this.$route.params.theme)
     context.gameStatus.next('loading')
     context.gameStatus.subscribe(status => this.isLoaded = status !== 'loading')
+
     // FIXME: Rerender the component when changing routes
     this.signal = this.id$
       .mergeMap(id => pieceAPI.getPieceById(id))
+      .delay(__DEBUG__ ? 0 : 1200) // Delay for progress bar
       .catch(() => bus.$emit('toast', { msg: 'Failed to load the MIDI file', type: 'error' }))
       .subscribe(piece => {
         this.piece = piece
@@ -106,6 +132,7 @@ export default {
           instrument: this.instrument,
           mode: this.mode,
           piece: this.piece,
+          location: this.location,
           onProgress: this.onProgress,
           onLoaded: this.onLoaded
         })
@@ -126,6 +153,10 @@ export default {
       game.rerender()
     },
 
+    openGitHub () {
+      window.open('https://github.com/SuneBear/Piano-Flow', '_blank')
+    },
+
     onProgress (state, progress) {
       this.loadedPercent = progress * 100
     },
@@ -133,7 +164,7 @@ export default {
     onLoaded () {
       this.loadTimer = setTimeout(() => {
         context.gameStatus.next('playing')
-      }, __DEBUG__ ? 0 : 2500)
+      }, __DEBUG__ ? 0 : 2000)
     },
 
     switchStatus(status = 'resume') {
@@ -206,10 +237,7 @@ export default {
         transform: translateY(-37px)
 
     [game-status='loading'] &
-
-      &,
-      .progress-bar
-        transition-delay: 918ms
+      transition-delay: 918ms
 
   .control-layer
     position: relative

@@ -10,12 +10,11 @@ export default class ConductorSounder {
   constructor () {
     this.currentlyOn = []
     this.numPress = 0
-    this.nextOnBunch = 0
-    this.lastOnTick = root.performer.noteObjects[0][0].noteOnTick
     this.pitchPressStatus = []
     for (let i = 0; i < 128; i++) {
       this.pitchPressStatus.push(0)
     }
+    this.setLocation(0)
   }
 
   setLocation (location) {

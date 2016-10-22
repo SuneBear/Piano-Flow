@@ -5,7 +5,7 @@ class Context {
     // App Status: loading, loaded
     this.status = new BehaviorSubject('loading')
     // App Theme: see styles/themes dir
-    this.theme = new BehaviorSubject('moonized')
+    this.theme = new BehaviorSubject('monochrome')
     // Game Status: loading, playing (paused, collapsed), stop
     this.gameStatus = new BehaviorSubject('stop')
     // Doc Title

@@ -119,16 +119,13 @@ export default class ConductorPerformer {
     // TODO: Combine notes more flexible
     for (let i = 0; i < noteInfos.length; i++) {
       const { startTime, endTime, notePitch, velocity } = noteInfos[i]
-      if (Math.abs(startTime - currentStartTime) > (1000 / 10) && velocity > 16) { // startTime !== currentStartTime
+      if (Math.abs(startTime - currentStartTime) > (1000 / 12) && velocity > 16) { // startTime !== currentStartTime
         currentStartTime = startTime
-        bunch.sort((a, b) => a[2] - b[2])
         bunchInfos.push(bunch)
         bunch = []
       }
       bunch.push([startTime, endTime, notePitch, velocity])
     }
-
-    bunch.sort((a, b) => a[2] - b[2])
     bunchInfos.push(bunch) // Push the last bunch
     return bunchInfos
   }
@@ -146,9 +143,9 @@ export default class ConductorPerformer {
 
   generateBunchPositions (bunchInfos) {
     const bunchPositions = []
-    let spacingFactor = (0.07 * bunchInfos.length * root.width) / (bunchInfos[bunchInfos.length - 1][0][0] - bunchInfos[0][0][0])
+    let spacingFactor = (0.08 * bunchInfos.length * root.width) / (bunchInfos[bunchInfos.length - 1][0][0] - bunchInfos[0][0][0])
     spacingFactor *= root.spacingMultiplier
-    spacingFactor = Math.max(spacingFactor, 0.27) // Minimum
+    spacingFactor = Math.max(spacingFactor, 0.3) // Minimum
     let initTime = bunchInfos[0][0][0]
     // TODO: Limit min and max distance
     for (let i = 0; i < bunchInfos.length; i++) {
@@ -186,32 +183,35 @@ export default class ConductorPerformer {
         let size = note[3] / 127 * 0.96
         size = Math.max(size, 0.25) // Minimum
         size = Math.min(size, 0.6) // Maximum
+        // TODO: Use flow to replace circle
         const noteVis = new ConductorNoteVis(this.bunchPositions[index], positionY, size, note)
         noteVis.setScale(0.003125 * root.height * (128 / this.noteTexture.width) * 0.4 * root.sizeMultiplier)
         noteVisBunch.push(noteVis)
       }
-      switch (noteVisBunch.length) {
+      // Set tint
+      const bunchSortedByPitch = noteVisBunch.slice(0).sort((a, b) => a.notePitch - b.notePitch)
+      switch (bunchSortedByPitch.length) {
         case 1:
-          noteVisBunch[0].setTint(this.colorTheme[4])
+          bunchSortedByPitch[0].setTint(this.colorTheme[4])
           break
         case 2:
-          noteVisBunch[0].setTint(this.colorTheme[1])
-          noteVisBunch[1].setTint(this.colorTheme[4])
+          bunchSortedByPitch[0].setTint(this.colorTheme[1])
+          bunchSortedByPitch[1].setTint(this.colorTheme[4])
           break
         case 3:
-          noteVisBunch[0].setTint(this.colorTheme[1])
-          noteVisBunch[1].setTint(this.colorTheme[3])
-          noteVisBunch[2].setTint(this.colorTheme[4])
+          bunchSortedByPitch[0].setTint(this.colorTheme[1])
+          bunchSortedByPitch[1].setTint(this.colorTheme[3])
+          bunchSortedByPitch[2].setTint(this.colorTheme[4])
           break
         case 4:
-          noteVisBunch[0].setTint(this.colorTheme[1])
-          noteVisBunch[1].setTint(this.colorTheme[2])
-          noteVisBunch[2].setTint(this.colorTheme[3])
-          noteVisBunch[3].setTint(this.colorTheme[4])
+          bunchSortedByPitch[0].setTint(this.colorTheme[1])
+          bunchSortedByPitch[1].setTint(this.colorTheme[2])
+          bunchSortedByPitch[2].setTint(this.colorTheme[3])
+          bunchSortedByPitch[3].setTint(this.colorTheme[4])
           break
         default:
-          for (let i = 0; i < noteVisBunch.length; i++) {
-            noteVisBunch[i].setTint(this.colorTheme[4 - Math.min(noteVisBunch.length - 1 - i, this.colorTheme.length - 1)])
+          for (let i = 0; i < bunchSortedByPitch.length; i++) {
+            bunchSortedByPitch[i].setTint(this.colorTheme[4 - Math.min(bunchSortedByPitch.length - 1 - i, this.colorTheme.length - 1)])
           }
       }
       index++

@@ -69,8 +69,8 @@ export default class ConductorNoteVis {
 
   playTrigger () {
     this.isPlayed = true
-    this.sprite.scale.x *= 3
-    this.sprite.scale.y *= 3
+    this.sprite.scale.x *= 2
+    this.sprite.scale.y *= 2
     this.bubbleScale = 0
   }
 

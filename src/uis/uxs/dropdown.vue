@@ -132,6 +132,13 @@ export default {
     transition: all 318ms
     text-overflow()
 
+    .more-info
+      position: absolute
+      top: 8px
+      right: 18px
+      opacity: 0.5
+      font-size: 80%
+
     &:after
       content: ' '
       display: block

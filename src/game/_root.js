@@ -1,16 +1,17 @@
 import PIXI from 'pixi.js'
 import MIDI from './midi'
+import { context } from '../services'
 import Perlin from './perlin'
 import SamplePlayer from './sample-player'
-import ConductorSounder from './conductor-performer'
+import ConductorPerformer from './conductor-performer'
 
-// The temp code is almost taken from TouchPianist, I will rewrite a better one in the future
-// TODO Flag: Refactor
+// Refactor Flag: I will rewrite a better one in the future
 class Root {
 
   constructor () {
     this.audioCtx = new (window.AudioContext || window.webkitAudioContext)()
     this.shouldAutoRender = false // isPlaying
+    context.gameStatus.subscribe(status => { this.isLoaded = status !== 'loading' }) // isLoaded
 
     this.mdown = this._onMouseDown.bind(this)
     this.mleave = this._hideInfoOverlay.bind(this)
@@ -62,8 +63,8 @@ class Root {
     this.vm = options.vm
     this.instrument = options.instrument
     this.repeatOnHold = options.repeatOnHold
+    this.initLocation = options.location
 
-    this.initLocation = options.location || 0
     this.spacingMultiplier = options.spacingMultiplier || 1
     this.sizeMultiplier = options.sizeMultiplier || 1
 
@@ -73,9 +74,9 @@ class Root {
 
   _mount () {
     this.$wrap.appendChild(this.renderer.view)
-    this.samplePlayer = new SamplePlayer(this.audioCtx, MIDI.Soundfont[this.instrument])
-    this.perlin = new Perlin(655366 * Math.random(), 1)
-    this.performer = new ConductorSounder(this.mode === 'autoplay')
+    this.samplePlayer = new SamplePlayer(this.audioCtx, this.instrument)
+    this.perlin = new Perlin(655366 * Math.random())
+    this.performer = new ConductorPerformer(this.mode === 'autoplay')
     this._update()
   }
 
@@ -83,7 +84,7 @@ class Root {
     // REF: https://hacks.mozilla.org/2011/08/animating-with-javascript-from-setinterval-to-requestanimationframe/
     this.renderRaf = window.requestAnimationFrame(this._update.bind(this))
     this.renderer.render(this.stage)
-    if (this.shouldAutoRender) this.performer && this.performer.redraw(timestamp)
+    if (this.shouldAutoRender && this.isLoaded) this.performer && this.performer.redraw(timestamp)
   }
 
   performerReady () {
@@ -188,7 +189,7 @@ class Root {
 
   _clear () {
     this._stopRender()
-    this.samplePlayer.offAllNotes()
+    this.samplePlayer && this.samplePlayer.offAllNotes()
     this.stage.removeChildren()
     this.renderer.render(this.stage)
   }

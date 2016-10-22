@@ -4,6 +4,7 @@
     <router-view keep-alive name="game"></router-view>
   </div>
   <logo :is-preload="!isLoaded"></logo>
+  <!-- <footer-bar></footer-bar> -->
   <div id="content">
     <router-view keep-alive></router-view>
   </div>
@@ -13,11 +14,12 @@
 
 <script>
 import { bus, context } from './services'
-import { Logo } from './views'
+import { Logo, FooterBar } from './views'
 
 export default {
   components: {
-    Logo
+    Logo,
+    FooterBar
   },
 
   data () {
@@ -60,6 +62,10 @@ export default {
 
     &.is-preload
       transform: rotateY(90deg) rotateZ(0deg)
+
+  footer
+    position: absolute
+    bottom: 10px
 
 #content
   position: absolute
