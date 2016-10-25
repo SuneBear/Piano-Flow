@@ -1,6 +1,6 @@
 import PIXI from 'pixi.js'
 import MIDI from './midi'
-import { context } from '../services'
+import { bus, context } from '../services'
 import Perlin from './perlin'
 import SamplePlayer from './sample-player'
 import ConductorPerformer from './conductor-performer'
@@ -197,7 +197,10 @@ class Root {
   endPiece () {
     this.mode = 'rhythm' // Avoid autoplay in a loop
     this.vm.mode = 'rhythm'
-    this.restart()
+    bus.$emit('toast', { msg: 'Fin. The piece renewed for you.', type: 'info' })
+    this.endTimer = setTimeout(() => {
+      this.restart()
+    }, 500)
   }
 
   pause () {
@@ -211,6 +214,7 @@ class Root {
   stop () {
     // FIXME: Destroy the old instances when the game stops
     window.cancelAnimationFrame(this.renderRaf)
+    clearTimeout(this.endTimer)
     this._clear()
   }
 
