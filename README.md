@@ -30,6 +30,9 @@ $ npm start
 ```
 The structure is a experimental combination of SPA based on Vue 2 and MUG based on Pixi.js, MIDI.js, etc. They are basically independent, but using the shared assets and services.
 
+## Browser Compatibility
+The game was developed in Chrome 54 (Mac OS X) without cross-browser testing. I am sure it works on webkit-based browsers such as Chrome, Safari. Hold on, there are so many weird questions that I hasn't met yet if you play it in other browser/device. Feel free to raise an issue, let's make it work first.
+
 ## Further Improvements
 - Brand Redesign & UI Redesign & Animation Tuning
 - Gameplay: Add some different modes
