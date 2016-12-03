@@ -1,3 +1,4 @@
+// rgb(12,173,22) or #D22BFF => [12, 173, 22]
 function _rgb2Array (colorString) {
   if (colorString.indexOf('#') !== -1 && colorString.length === 7) {
     let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(colorString)

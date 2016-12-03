@@ -17,7 +17,9 @@ export function getCurrentTheme () {
   const styles = window.getComputedStyle($theme)
   const brand = styles.fill
   const bg = styles.backgroundColor
-  const accent = styles.borderColor
+  // Firefox Bug: can't get the property border-color
+  // REF: https://bugzilla.mozilla.org/show_bug.cgi?id=137688
+  const accent = styles.borderLeftColor
 
   return {
     $name: themeName,
