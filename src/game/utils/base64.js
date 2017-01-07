@@ -48,7 +48,7 @@ export const Base64Binary = {
       uarray = new Uint8Array(bytes)
     }
 
-    input = input.replace(/[^A-Za-z0-9\+\/=]/g, '')
+    input = input.replace(/[^A-Za-z0-9+/=]/g, '')
 
     for (i = 0; i < bytes; i += 3) {
       // get the 3 octects in 4 ascii chars

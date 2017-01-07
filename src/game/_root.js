@@ -43,7 +43,7 @@ class Root {
       resolution: 1 || window.devicePixelRatio // TODO: Optimize Ratio
     }
 
-    const type = navigator.userAgent.match(/Version\/[\d\.]+.*Safari/) ? '2d' : 'auto'
+    const type = navigator.userAgent.match(/Version\/[\d.]+.*Safari/) ? '2d' : 'auto'
 
     switch (type) {
       case '2d':

@@ -31,8 +31,8 @@ exports.loaders = [
   { test: /\.json$/, loader: 'json' },
   { test: /\.vue$/, loader: 'vue' },
   { test: /\.js$/, loader: 'babel', include: path.join(__dirname, '../src') },
-  { test: /\.(png|jpe?g|gif|svg)(\?.*)?$/, loader: 'url', query: {limit: 100, name: `assets/images/${baseName}`}, exclude: /node_modules\/tb-icons\/lib\/svgs/ },
-  { test: /\.svg$/, loaders: [ 'svg-sprite?' + JSON.stringify({name: 'ss-[name]'})], include: /node_modules\/tb-icons\/lib\/svgs/ },
+  { test: /\.(png|jpe?g|gif|svg)(\?.*)?$/, loader: 'url', query: {limit: 100, name: `assets/images/${baseName}`}, exclude: /tb-icons\/lib\/svgs/ },
+  { test: /\.svg$/, loaders: [ 'svg-sprite?' + JSON.stringify({name: 'ss-[name]'})], include: /tb-icons\/lib\/svgs/ },
   { test: /\.(woff2?)(\?.*)?$/, loader: 'url', query: {limit: 100, name: `assets/fonts/${baseName}`} },
   { test: /\.(mid)$/, loader: 'file', query: {name: `assets/midis/${baseName}`} }
 ]
