@@ -316,6 +316,7 @@ export default class ConductorPerformer {
   }
 
   handleTouch (event) {
+    event.preventDefault()
     if (this.isGhostMode) return root.ghostWasSpooked()
     for (let i = 0; i < event.changedTouches.length; i++) {
       const touch = event.changedTouches[i]
@@ -330,6 +331,7 @@ export default class ConductorPerformer {
   }
 
   handleUntouch (event) {
+    event.preventDefault()
     if (!this.isGhostMode) {
       for (let i = 0; i < event.changedTouches.length; i++) {
         const touch = event.changedTouches[i]
